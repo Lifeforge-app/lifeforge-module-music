@@ -1,0 +1,10 @@
+{
+  "name": "music",
+  "version": "dev. 25w41",
+  "description": "The personal soundtrack to the best moments of your life.",
+  "scripts": {
+    "types": "cd client && bun tsc && cd ../server && bun tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
