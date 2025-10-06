@@ -5,6 +5,10 @@
   "scripts": {
     "types": "cd client && bun tsc && cd ../server && bun tsc"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "human-number": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/human-number": "^1.0.2"
+  }
 }
