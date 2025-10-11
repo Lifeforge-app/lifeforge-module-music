@@ -34,6 +34,14 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
       })
   )
 
+  const isAPIKeyExistQuery = useQuery(
+    forgeAPI.apiKeys.entries.checkKeys
+      .input({
+        keys: 'openai'
+      })
+      .queryOptions()
+  )
+
   const [targetMusicName, setTargetMusicName] = useState('')
 
   const [targetMusicAuthor, setTargetMusicAuthor] = useState('')
@@ -117,40 +125,51 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
               <div className="space-y-3">
                 <VideoInfo videoInfo={videoInfo} />
                 <TextInput
-                  actionButtonProps={{
-                    icon: 'mage:stars-c',
-                    loading: aiParsingLoading,
-                    onClick: async () => {
-                      if (!videoInfoQuery.data) return
-
-                      setAiParsingLoading(true)
-
-                      try {
-                        const response =
-                          await forgeAPI.music.youtube.parseMusicNameAndAuthor.mutate(
-                            {
-                              title: videoInfoQuery.data?.title || '',
-                              uploader: videoInfoQuery.data?.uploader || ''
-                            }
-                          )
-
-                        if (!response) {
-                          toast.error('Failed to parse music name and author')
-
-                          return
+                  actionButtonProps={
+                    isAPIKeyExistQuery.isLoading
+                      ? {
+                          loading: true
                         }
+                      : isAPIKeyExistQuery.data
+                        ? {
+                            icon: 'mage:stars-c',
+                            loading: aiParsingLoading,
+                            onClick: async () => {
+                              if (!videoInfoQuery.data) return
 
-                        setTargetMusicName(response.name || '')
-                        setTargetMusicAuthor(response.author || '')
-                      } catch (error) {
-                        toast.error(
-                          `Failed to parse music name and author: ${error instanceof Error ? error.message : String(error)}`
-                        )
-                      } finally {
-                        setAiParsingLoading(false)
-                      }
-                    }
-                  }}
+                              setAiParsingLoading(true)
+
+                              try {
+                                const response =
+                                  await forgeAPI.music.youtube.parseMusicNameAndAuthor.mutate(
+                                    {
+                                      title: videoInfoQuery.data?.title || '',
+                                      uploader:
+                                        videoInfoQuery.data?.uploader || ''
+                                    }
+                                  )
+
+                                if (!response) {
+                                  toast.error(
+                                    'Failed to parse music name and author'
+                                  )
+
+                                  return
+                                }
+
+                                setTargetMusicName(response.name || '')
+                                setTargetMusicAuthor(response.author || '')
+                              } catch (error) {
+                                toast.error(
+                                  `Failed to parse music name and author: ${error instanceof Error ? error.message : String(error)}`
+                                )
+                              } finally {
+                                setAiParsingLoading(false)
+                              }
+                            }
+                          }
+                        : undefined
+                  }
                   icon="tabler:music"
                   label="Music Name"
                   namespace="apps.music"
