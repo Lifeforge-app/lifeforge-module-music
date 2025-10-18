@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { Button, DashboardItem, EmptyStateScreen } from 'lifeforge-ui'
 import { useRef } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'shared'
 import type { WidgetConfig } from 'shared'
 
 export default function MusicPlayer() {

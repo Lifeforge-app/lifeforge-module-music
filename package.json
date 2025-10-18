@@ -14,7 +14,6 @@
     "human-number": "^2.0.6",
     "lifeforge-ui": "workspace:*",
     "react-i18next": "^15.1.1",
-    "react-router": "^7.9.4",
     "react-toastify": "^11.0.5",
     "shared": "workspace:*",
     "tailwindcss": "^4.1.14",
