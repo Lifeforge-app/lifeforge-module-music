@@ -7,5 +7,5 @@ export default {
   routes: {
     music: lazy(() => import('@'))
   },
-  category: '04.Storage'
+  category: 'Storage'
 } satisfies ModuleConfig
