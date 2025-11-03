@@ -27,6 +27,7 @@ export default function MusicPlayer() {
         />
       }
       icon="tabler:music"
+      namespace="apps.music"
       title="Music Player"
     >
       <div className="flex min-h-0 flex-1 flex-col">
