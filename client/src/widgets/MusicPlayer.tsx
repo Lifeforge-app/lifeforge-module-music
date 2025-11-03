@@ -71,7 +71,7 @@ export default function MusicPlayer() {
             }}
             icon="tabler:disc-off"
             name="music"
-            namespace="apps.dashboard"
+            namespace="apps.music"
             tKey="widgets.musicPlayer"
           />
         )}
