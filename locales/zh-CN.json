@@ -1,6 +1,18 @@
 {
   "title": "音乐",
   "description": "您人生中最美好时刻的个人配乐。",
+  "widgets": {
+    "musicPlayer": {
+      "title": "音乐播放器",
+      "description": "播放您的个人音乐。",
+      "empty": {
+        "music": {
+          "title": "没有音乐",
+          "description": "点击下面的按钮选择想要播放的音乐。"
+        }
+      }
+    }
+  },
   "buttons": {
     "importFromNas": "从 NAS 汇入",
     "downloadFromYoutube": "从 YouTube 下载",

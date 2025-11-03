@@ -1,6 +1,18 @@
 {
   "title": "Muzik",
   "description": "Lagu peribadi untuk detik-detik terbaik dalam hidup anda.",
+  "widgets": {
+    "musicPlayer": {
+      "title": "Pemain Muzik",
+      "description": "Mainkan muzik peribadi anda.",
+      "empty": {
+        "music": {
+          "title": "Tiada Muzik",
+          "description": "Klik butang di bawah untuk memilih muzik untuk dimainkan."
+        }
+      }
+    }
+  },
   "buttons": {
     "importFromNas": "Import dari NAS",
     "downloadFromYoutube": "Muat Turun dari YouTube",

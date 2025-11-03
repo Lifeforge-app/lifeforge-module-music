@@ -1,6 +1,18 @@
 {
   "title": "Music",
   "description": "The personal soundtrack to the best moments of your life.",
+  "widgets": {
+    "musicPlayer": {
+      "title": "Music Player",
+      "description": "Play your personal music.",
+      "empty": {
+        "music": {
+          "title": "No Music",
+          "description": "Click the button below to select music to play."
+        }
+      }
+    }
+  },
   "buttons": {
     "importFromNas": "Import from NAS",
     "downloadFromYoutube": "Download from YouTube",
