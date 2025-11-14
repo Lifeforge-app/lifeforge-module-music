@@ -189,7 +189,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
                   className="mt-6 w-full max-w-full"
                   icon={
                     downloadProgress
-                      ? 'svg-spinners:180-ring'
+                      ? 'svg-spinners:ring-resize'
                       : 'tabler:download'
                   }
                   loading={!!downloadProgress}
