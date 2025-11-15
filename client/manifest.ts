@@ -5,7 +5,7 @@ export default {
   name: 'Music',
   icon: 'tabler:music',
   routes: {
-    music: lazy(() => import('@'))
+    '/': lazy(() => import('@'))
   },
   category: 'Storage'
 } satisfies ModuleConfig
