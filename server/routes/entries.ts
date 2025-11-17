@@ -3,7 +3,12 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description('Get all music entries')
+  .description({
+    en: 'Retrieve all music entries',
+    ms: 'Dapatkan semua entri muzik',
+    'zh-CN': '获取所有音乐条目',
+    'zh-TW': '獲取所有音樂條目'
+  })
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
@@ -14,7 +19,12 @@ const list = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update a music entry')
+  .description({
+    en: 'Update music entry details',
+    ms: 'Kemas kini butiran entri muzik',
+    'zh-CN': '更新音乐条目详情',
+    'zh-TW': '更新音樂條目詳情'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -30,7 +40,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete a music entry')
+  .description({
+    en: 'Delete a music entry',
+    ms: 'Padam entri muzik',
+    'zh-CN': '删除音乐条目',
+    'zh-TW': '刪除音樂條目'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -46,7 +61,12 @@ const remove = forgeController
 
 const toggleFavourite = forgeController
   .mutation()
-  .description('Toggle favourite status of a music entry')
+  .description({
+    en: 'Toggle favourite status of a music entry',
+    ms: 'Togol status kegemaran entri muzik',
+    'zh-CN': '切换音乐条目的收藏状态',
+    'zh-TW': '切換音樂條目的收藏狀態'
+  })
   .input({
     query: z.object({
       id: z.string()

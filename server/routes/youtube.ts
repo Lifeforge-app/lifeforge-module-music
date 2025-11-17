@@ -7,7 +7,12 @@ import z from 'zod'
 
 const getVideoInfo = forgeController
   .query()
-  .description('Get YouTube video information')
+  .description({
+    en: 'Retrieve YouTube video metadata',
+    ms: 'Dapatkan metadata video YouTube',
+    'zh-CN': '获取YouTube视频元数据',
+    'zh-TW': '獲取YouTube影片元數據'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -58,7 +63,12 @@ const getVideoInfo = forgeController
 
 const downloadVideo = forgeController
   .mutation()
-  .description('Download YouTube video asynchronously')
+  .description({
+    en: 'Download YouTube video as audio asynchronously',
+    ms: 'Muat turun video YouTube sebagai audio secara tidak segerak',
+    'zh-CN': '异步下载YouTube视频为音频',
+    'zh-TW': '異步下載YouTube影片為音訊'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -167,7 +177,12 @@ const PROMPT =
 
 const parseMusicNameAndAuthor = forgeController
   .mutation()
-  .description('Parse music name and author from YouTube video using AI')
+  .description({
+    en: 'Extract music title and author from YouTube video using AI',
+    ms: 'Ekstrak tajuk muzik dan pengarang daripada video YouTube menggunakan AI',
+    'zh-CN': '使用AI从YouTube视频中提取音乐标题和作者',
+    'zh-TW': '使用AI從YouTube影片中提取音樂標題和作者'
+  })
   .input({
     body: z.object({
       title: z.string(),
