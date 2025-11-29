@@ -2,7 +2,7 @@ import ControlButtons from '@/components/Bottombar/components/ControlButtons'
 import { useMusicContext } from '@/providers/MusicProvider'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
-import { Button, DashboardItem, EmptyStateScreen } from 'lifeforge-ui'
+import { Button, EmptyStateScreen, Widget } from 'lifeforge-ui'
 import { useRef } from 'react'
 import { Link, useNavigate } from 'shared'
 import type { WidgetConfig } from 'shared'
@@ -15,9 +15,9 @@ export default function MusicPlayer() {
   const ref = useRef<HTMLDivElement>(null)
 
   return (
-    <DashboardItem
+    <Widget
       ref={ref}
-      componentBesideTitle={
+      actionComponent={
         <Button
           as={Link}
           className="p-2!"
@@ -70,13 +70,15 @@ export default function MusicPlayer() {
               children: 'Select Music'
             }}
             icon="tabler:disc-off"
-            name="music"
-            namespace="apps.music"
-            tKey="widgets.musicPlayer"
+            message={{
+              id: 'music',
+              namespace: 'apps.music',
+              tKey: 'widgets.musicPlayer'
+            }}
           />
         )}
       </div>
-    </DashboardItem>
+    </Widget>
   )
 }
 

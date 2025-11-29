@@ -47,8 +47,8 @@ function Music() {
         <SearchInput
           namespace="apps.music"
           searchTarget="music"
-          setValue={setSearchQuery}
           value={searchQuery}
+          onChange={setSearchQuery}
         />
         <div className="relative mt-4 flex size-full min-w-0">
           <Scrollbar>
@@ -67,8 +67,10 @@ function Music() {
                         ? 'tabler:search-off'
                         : 'tabler:music-off'
                     }
-                    name={musics.length > 0 ? 'result' : 'music'}
-                    namespace="apps.music"
+                    message={{
+                      id: musics.length > 0 ? 'result' : 'music',
+                      namespace: 'apps.music'
+                    }}
                   />
                 )
               }

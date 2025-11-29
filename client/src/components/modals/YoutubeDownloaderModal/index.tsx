@@ -115,8 +115,8 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
         label="Video URL"
         namespace="apps.music"
         placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        setValue={setVideoURLInput}
         value={videoURLinput}
+        onChange={setVideoURLInput}
       />
       <div className="mt-3">
         {URL_REGEX.test(videoURL) && (
@@ -174,16 +174,16 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
                   label="Music Name"
                   namespace="apps.music"
                   placeholder="Beautiful Music"
-                  setValue={setTargetMusicName}
                   value={targetMusicName}
+                  onChange={setTargetMusicName}
                 />
                 <TextInput
                   icon="tabler:user"
                   label="Music Author"
                   namespace="apps.music"
                   placeholder="John Doe"
-                  setValue={setTargetMusicAuthor}
                   value={targetMusicAuthor}
+                  onChange={setTargetMusicAuthor}
                 />
                 <Button
                   className="mt-6 w-full max-w-full"
