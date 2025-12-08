@@ -52,7 +52,7 @@ interface IMusicContext {
 
 const MusicContext = createContext<IMusicContext | undefined>(undefined)
 
-export function MusicProvider({ children }: { children: ReactNode }) {
+export default function MusicProvider({ children }: { children: ReactNode }) {
   const { auth } = useAuth()
 
   const audio = useRef(new Audio())

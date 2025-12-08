@@ -1,5 +1,5 @@
 /* eslint-disable react-compiler/react-compiler */
-import { useMusicContext } from '@/providers/MusicProvider'
+import { useMusicContext } from '@/providers/global'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 

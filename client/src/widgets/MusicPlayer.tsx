@@ -1,5 +1,5 @@
 import ControlButtons from '@/components/Bottombar/components/ControlButtons'
-import { useMusicContext } from '@/providers/MusicProvider'
+import { useMusicContext } from '@/providers/global'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { Button, EmptyStateScreen, Widget } from 'lifeforge-ui'

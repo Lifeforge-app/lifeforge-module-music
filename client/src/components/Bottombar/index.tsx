@@ -1,4 +1,4 @@
-import { useMusicContext } from '@/providers/MusicProvider'
+import { useMusicContext } from '@/providers/global'
 import { ContextMenu, ContextMenuItem, FAB, useModalStore } from 'lifeforge-ui'
 
 import YoutubeDownloaderModal from '../modals/YoutubeDownloaderModal'

@@ -1,4 +1,4 @@
-import type { MusicEntry } from '@/providers/MusicProvider'
+import type { MusicEntry } from '@/providers/global'
 import dayjs from 'dayjs'
 import { Card } from 'lifeforge-ui'
 

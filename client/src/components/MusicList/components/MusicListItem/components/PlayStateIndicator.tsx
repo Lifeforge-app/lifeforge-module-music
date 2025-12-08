@@ -1,4 +1,4 @@
-import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
+import { type MusicEntry, useMusicContext } from '@/providers/global'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { useMemo } from 'react'

@@ -1,4 +1,4 @@
-import { useMusicContext } from '@/providers/MusicProvider'
+import { useMusicContext } from '@/providers/global'
 import clsx from 'clsx'
 import { Button } from 'lifeforge-ui'
 import { toast } from 'react-toastify'

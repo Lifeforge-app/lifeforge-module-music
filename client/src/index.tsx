@@ -1,4 +1,4 @@
-import { useMusicContext } from '@/providers/MusicProvider'
+import { useMusicContext } from '@/providers/global'
 import { useDebounce } from '@uidotdev/usehooks'
 import {
   EmptyStateScreen,

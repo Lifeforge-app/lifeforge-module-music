@@ -1,4 +1,4 @@
-import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
+import { type MusicEntry, useMusicContext } from '@/providers/global'
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
