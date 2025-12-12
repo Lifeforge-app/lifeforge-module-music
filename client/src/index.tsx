@@ -55,7 +55,7 @@ function Music() {
                 musics.filter(music =>
                   music.name.toLowerCase().includes(searchQuery.toLowerCase())
                 ).length > 0 ? (
-                  <MusicList debouncedSearchQuery={debouncedSearchQuery} />
+                  <MusicList searchQuery={searchQuery} />
                 ) : (
                   <EmptyStateScreen
                     icon={

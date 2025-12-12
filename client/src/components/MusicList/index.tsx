@@ -3,7 +3,7 @@ import { WithQuery } from 'lifeforge-ui'
 
 import MusicListItem from './components/MusicListItem'
 
-function MusicList({ debouncedSearchQuery }: { debouncedSearchQuery: string }) {
+function MusicList({ searchQuery }: { searchQuery: string }) {
   const { musicsQuery } = useMusicContext()
 
   return (
@@ -12,9 +12,7 @@ function MusicList({ debouncedSearchQuery }: { debouncedSearchQuery: string }) {
         <ul className="space-y-3 pb-12">
           {musics
             .filter(music =>
-              music.name
-                .toLowerCase()
-                .includes(debouncedSearchQuery.toLowerCase())
+              music.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map(music => (
               <MusicListItem key={music.id} music={music} />
