@@ -1,5 +1,4 @@
 import { useMusicContext } from '@/providers/global'
-import { useDebounce } from '@uidotdev/usehooks'
 import {
   EmptyStateScreen,
   ModuleHeader,
@@ -16,8 +15,6 @@ import MusicList from './components/MusicList'
 function Music() {
   const { searchQuery, setSearchQuery, musicsQuery, currentMusic, togglePlay } =
     useMusicContext()
-
-  const debouncedSearchQuery = useDebounce(searchQuery.trim(), 300)
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -45,6 +42,7 @@ function Music() {
       />
       <div className="music relative flex size-full min-h-0 min-w-0 flex-col sm:mt-0">
         <SearchInput
+          debounceMs={300}
           namespace="apps.music"
           searchTarget="music"
           value={searchQuery}
@@ -55,9 +53,7 @@ function Music() {
             <WithQuery query={musicsQuery}>
               {musics =>
                 musics.filter(music =>
-                  music.name
-                    .toLowerCase()
-                    .includes(debouncedSearchQuery.toLowerCase())
+                  music.name.toLowerCase().includes(searchQuery.toLowerCase())
                 ).length > 0 ? (
                   <MusicList debouncedSearchQuery={debouncedSearchQuery} />
                 ) : (
