@@ -1,6 +1,6 @@
 @import 'tailwindcss' source ('.');
 
-@reference '../../../../packages/lifeforge-ui/dist';
+@reference '../../../packages/lifeforge-ui/dist';
 
 .music input[type='range'].main {
   @apply accent-custom-500 from-custom-500 to-custom-500 appearance-none bg-linear-to-r bg-no-repeat;

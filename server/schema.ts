@@ -10,7 +10,6 @@ const musicSchemas = {
       is_favourite: z.boolean()
     }),
     raw: {
-      id: 'ud0dpvvhcjj4jiw',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -22,7 +21,6 @@ const musicSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -36,7 +34,6 @@ const musicSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'bdxbqwdv',
           max: 0,
           min: 0,
           name: 'name',
@@ -50,7 +47,6 @@ const musicSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '7e11dvi3',
           max: 0,
           min: 0,
           name: 'duration',
@@ -64,7 +60,6 @@ const musicSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'ucubj502',
           max: 0,
           min: 0,
           name: 'author',
@@ -77,7 +72,6 @@ const musicSchemas = {
         },
         {
           hidden: false,
-          id: 'wwccga9q',
           maxSelect: 1,
           maxSize: 1073741824,
           mimeTypes: [
@@ -105,7 +99,6 @@ const musicSchemas = {
         },
         {
           hidden: false,
-          id: 'ziq6worb',
           name: 'is_favourite',
           presentable: false,
           required: false,
