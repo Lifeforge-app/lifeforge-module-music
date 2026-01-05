@@ -1,6 +1,12 @@
 {
-  "name": "music",
-  "version": "dev. 25w41",
+  "name": "@lifeforge/lifeforge--music",
+  "displayName": "Music",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifeforge-app/lifeforge-module-music.git"
+  },
+  "version": "0.0.1",
+  "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "description": "The personal soundtrack to the best moments of your life.",
   "scripts": {
     "types": "cd client && bun tsc"
@@ -24,5 +30,17 @@
     "@types/human-number": "^1.0.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.1"
+  },
+  "exports": {
+    "./server": "./server/index.ts",
+    "./manifest": {
+      "types": "./manifest.d.ts",
+      "default": "./manifest.ts"
+    },
+    "./server/schema": "./server/schema.ts"
+  },
+  "lifeforge": {
+    "icon": "tabler:music",
+    "category": "Storage"
   }
 }
