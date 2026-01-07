@@ -1,4 +1,3 @@
-import { useMusicContext } from '@/providers/global'
 import {
   EmptyStateScreen,
   ModuleHeader,
@@ -8,9 +7,12 @@ import {
 } from 'lifeforge-ui'
 import { useEffect } from 'react'
 
+import { useMusicContext } from '@/providers/global'
+
 import AddMusicButton from './components/AddMusicButton'
 import BottomBar from './components/Bottombar'
 import MusicList from './components/MusicList'
+import './index.css'
 
 function Music() {
   const { searchQuery, setSearchQuery, musicsQuery, currentMusic, togglePlay } =
