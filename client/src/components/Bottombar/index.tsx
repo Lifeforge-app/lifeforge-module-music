@@ -1,5 +1,6 @@
-import { useMusicContext } from '@/providers/global'
 import { ContextMenu, ContextMenuItem, FAB, useModalStore } from 'lifeforge-ui'
+
+import { useMusicContext } from '@/providers/MusicProvider'
 
 import YoutubeDownloaderModal from '../modals/YoutubeDownloaderModal'
 import ControlButtons from './components/ControlButtons'
@@ -8,7 +9,7 @@ import MusicInfo from './components/MusicInfo'
 import VolumeControl from './components/VolumeControl'
 
 function BottomBar() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { currentMusic } = useMusicContext()
 

@@ -1,15 +1,16 @@
-import { useMusicContext } from '@/providers/global'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
 import { Button } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 
-export default function MusicInfo() {
+import { useMusicContext } from '@/providers/MusicProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
+export default function VolumeControl() {
   const queryClient = useQueryClient()
 
-  const { currentMusic, setCurrentMusic, isPlaying } = useMusicContext()
+  const { audio, currentMusic, setCurrentMusic, setVolume, volume } =
+    useMusicContext()
 
   const toggleFavouriteMutation = useMutation(
     forgeAPI.music.entries.toggleFavourite
@@ -19,6 +20,7 @@ export default function MusicInfo() {
       .mutationOptions({
         onSuccess: () => {
           if (!currentMusic) return
+
           queryClient.invalidateQueries({
             queryKey: ['music', 'entries']
           })
@@ -44,29 +46,13 @@ export default function MusicInfo() {
   }
 
   return (
-    <div className="flex-between flex w-full min-w-0 md:w-1/3">
-      <div className="flex w-full min-w-0 items-center">
-        <div className="bg-custom-500/20 flex size-12 shrink-0 items-center justify-center rounded-md">
-          <Icon
-            className={clsx(
-              'text-custom-500 text-3xl',
-              isPlaying && 'animate-spin'
-            )}
-            icon="tabler:disc"
-          />
-        </div>
-        <div className="ml-4 w-full min-w-0">
-          <p className="min-w-0 truncate font-semibold">{currentMusic.name}</p>
-          <p className="text-bg-500 text-sm">{currentMusic.author}</p>
-        </div>
-      </div>
+    <div className="hidden w-1/3 items-center justify-end gap-2 xl:flex">
       <Button
-        className={clsx(
-          'md:hidden',
+        className={
           currentMusic.is_favourite
             ? 'text-red-500 hover:text-red-600'
             : 'text-bg-500 hover:text-bg-800 dark:hover:text-bg-50'
-        )}
+        }
         icon={
           currentMusic.is_favourite ? 'tabler:heart-filled' : 'tabler:heart'
         }
@@ -75,6 +61,19 @@ export default function MusicInfo() {
           toggleFavouriteMutation.mutateAsync({})
         }}
       />
+      <div className="flex items-center">
+        <Icon className="text-bg-500 mr-4 text-xl" icon="tabler:volume" />
+        <input
+          className="secondary bg-bg-200 dark:bg-bg-700 h-1 w-32 cursor-pointer overflow-hidden rounded-full"
+          max="100"
+          type="range"
+          value={volume}
+          onChange={e => {
+            audio.current.volume = +e.target.value / 100
+            setVolume(+e.target.value)
+          }}
+        ></input>
+      </div>
     </div>
   )
 }

@@ -7,7 +7,7 @@ import {
 } from 'lifeforge-ui'
 import { useEffect } from 'react'
 
-import { useMusicContext } from '@/providers/global'
+import { useMusicContext } from '@/providers/MusicProvider'
 
 import AddMusicButton from './components/AddMusicButton'
 import BottomBar from './components/Bottombar'

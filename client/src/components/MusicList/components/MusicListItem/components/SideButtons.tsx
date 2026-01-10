@@ -1,5 +1,3 @@
-import { type MusicEntry, useMusicContext } from '@/providers/global'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -9,6 +7,9 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { forceDown } from 'shared'
 
+import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 import UpdateMusicModal from '../../../../modals/UpdateMusicModal'
 
 function SideButtons({ music }: { music: MusicEntry }) {
@@ -16,7 +17,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
 
   const { stopMusic, currentMusic } = useMusicContext()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const toggleFavouriteMutation = useMutation(
     forgeAPI.music.entries.toggleFavourite

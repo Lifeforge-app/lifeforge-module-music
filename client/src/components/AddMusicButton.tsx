@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import YoutubeDownloaderModal from './modals/YoutubeDownloaderModal'
 
 function AddMusicButton() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.music')
 

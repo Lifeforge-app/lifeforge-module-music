@@ -1,11 +1,12 @@
-import ControlButtons from '@/components/Bottombar/components/ControlButtons'
-import { useMusicContext } from '@/providers/global'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { Button, EmptyStateScreen, Widget } from 'lifeforge-ui'
 import { useRef } from 'react'
 import { Link, useNavigate } from 'shared'
 import type { WidgetConfig } from 'shared'
+
+import ControlButtons from '@/components/Bottombar/components/ControlButtons'
+import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function MusicPlayer() {
   const { currentMusic, isPlaying } = useMusicContext()
