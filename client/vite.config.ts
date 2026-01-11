@@ -26,8 +26,7 @@ export default defineConfig({
       name: moduleName,
       filename: 'remoteEntry.js',
       exposes: {
-        './Manifest': './manifest.ts',
-        './GlobalProvider': './src/providers/MusicProvider.tsx'
+        './Manifest': './manifest.ts'
       },
       shared: {
         react: {
