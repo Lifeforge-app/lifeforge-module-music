@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/lifeforge-app/lifeforge-module-music.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "description": "The personal soundtrack to the best moments of your life.",
   "scripts": {
