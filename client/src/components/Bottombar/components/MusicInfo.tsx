@@ -13,7 +13,7 @@ export default function MusicInfo() {
   const { currentMusic, setCurrentMusic, isPlaying } = useMusicContext()
 
   const toggleFavouriteMutation = useMutation(
-    forgeAPI.music.entries.toggleFavourite
+    forgeAPI.entries.toggleFavourite
       .input({
         id: currentMusic?.id || ''
       })

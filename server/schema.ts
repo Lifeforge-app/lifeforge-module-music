@@ -1,6 +1,7 @@
+import { cleanSchemas } from '@lifeforge/server-utils'
 import z from 'zod'
 
-const musicSchemas = {
+export const schemas = {
   entries: {
     schema: z.object({
       name: z.string(),
@@ -112,4 +113,4 @@ const musicSchemas = {
   }
 }
 
-export default musicSchemas
+export default cleanSchemas(schemas)

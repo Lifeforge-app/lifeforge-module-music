@@ -1,30 +1,21 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import z from 'zod'
 
-const list = forgeController
+import forge from '../forge'
+
+export const list = forge
   .query()
-  .description({
-    en: 'Retrieve all music entries',
-    ms: 'Dapatkan semua entri muzik',
-    'zh-CN': '获取所有音乐条目',
-    'zh-TW': '獲取所有音樂條目'
-  })
+  .description('Retrieve all music entries')
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
-      .collection('music__entries')
+      .collection('entries')
       .sort(['-is_favourite', 'name'])
       .execute()
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update music entry details',
-    ms: 'Kemas kini butiran entri muzik',
-    'zh-CN': '更新音乐条目详情',
-    'zh-TW': '更新音樂條目詳情'
-  })
+  .description('Update music entry details')
   .input({
     query: z.object({
       id: z.string()
@@ -35,60 +26,43 @@ const update = forgeController
     })
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('music__entries').id(id).data(body).execute()
+    pb.update.collection('entries').id(id).data(body).execute()
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete a music entry',
-    ms: 'Padam entri muzik',
-    'zh-CN': '删除音乐条目',
-    'zh-TW': '刪除音樂條目'
-  })
+  .description('Delete a music entry')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'music__entries'
+    id: 'entries'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('music__entries').id(id).execute()
+    pb.delete.collection('entries').id(id).execute()
   )
 
-const toggleFavourite = forgeController
+export const toggleFavourite = forge
   .mutation()
-  .description({
-    en: 'Toggle favourite status of a music entry',
-    ms: 'Togol status kegemaran entri muzik',
-    'zh-CN': '切换音乐条目的收藏状态',
-    'zh-TW': '切換音樂條目的收藏狀態'
-  })
+  .description('Toggle favourite status of a music entry')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'music__entries'
+    id: 'entries'
   })
   .statusCode(200)
   .callback(async ({ pb, query: { id } }) => {
-    const entry = await pb.getOne.collection('music__entries').id(id).execute()
+    const entry = await pb.getOne.collection('entries').id(id).execute()
 
     return pb.update
-      .collection('music__entries')
+      .collection('entries')
       .id(id)
       .data({ is_favourite: !entry.is_favourite })
       .execute()
   })
-
-export default forgeRouter({
-  list,
-  update,
-  remove,
-  toggleFavourite
-})

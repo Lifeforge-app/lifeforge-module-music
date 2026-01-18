@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import {
   type ReactNode,
@@ -13,7 +12,9 @@ import { toast } from 'react-toastify'
 import type { InferOutput } from 'shared'
 import { useAuth } from 'shared'
 
-export type MusicEntry = InferOutput<typeof forgeAPI.music.entries.list>[number]
+import forgeAPI from '@/utils/forgeAPI'
+
+export type MusicEntry = InferOutput<typeof forgeAPI.entries.list>[number]
 
 interface IMusicContext {
   // Audio related
@@ -62,7 +63,7 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
 
   const musicsQuery = useQuery(
-    forgeAPI.music.entries.list.queryOptions({
+    forgeAPI.entries.list.queryOptions({
       enabled: auth
     })
   )
@@ -82,11 +83,11 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
   const playMusic = async (music: MusicEntry) => {
     setCurrentMusic(music)
 
-    audio.current.src = forgeAPI.media.input({
+    audio.current.src = forgeAPI.getMedia({
       collectionId: music.collectionId,
       recordId: music.id,
       fieldId: music.file
-    }).endpoint
+    })
 
     setCurrentDuration(0)
     setIsPlaying(true)

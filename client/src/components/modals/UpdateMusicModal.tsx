@@ -1,7 +1,8 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import type { MusicEntry } from '../../providers/MusicProvider'
 
@@ -17,7 +18,7 @@ function UpdateMusicModal({
   const queryClient = useQueryClient()
 
   const mutation = useMutation(
-    forgeAPI.music.entries.update
+    forgeAPI.entries.update
       .input({
         id: initialData?.id || ''
       })
@@ -75,11 +76,10 @@ function UpdateMusicModal({
     try {
       const { name, author } = formStateStore.getState()
 
-      const response =
-        await forgeAPI.music.youtube.parseMusicNameAndAuthor.mutate({
-          title: name || '',
-          uploader: author || ''
-        })
+      const response = await forgeAPI.youtube.parseMusicNameAndAuthor.mutate({
+        title: name || '',
+        uploader: author || ''
+      })
 
       if (!response) {
         toast.error('Failed to parse music name and author')

@@ -1,18 +1,12 @@
-import { fetchAI } from '@functions/external/ai'
-import { forgeController, forgeRouter } from '@functions/routes'
-import { addToTaskPool, updateTaskInPool } from '@functions/socketio/taskPool'
 import { exec, spawn } from 'child_process'
 import fs from 'fs'
 import z from 'zod'
 
-const getVideoInfo = forgeController
+import forge from '../forge'
+
+export const getVideoInfo = forge
   .query()
-  .description({
-    en: 'Retrieve YouTube video metadata',
-    ms: 'Dapatkan metadata video YouTube',
-    'zh-CN': '获取YouTube视频元数据',
-    'zh-TW': '獲取YouTube影片元數據'
-  })
+  .description('Retrieve YouTube video metadata')
   .input({
     query: z.object({
       id: z.string()
@@ -61,14 +55,9 @@ const getVideoInfo = forgeController
     })
   })
 
-const downloadVideo = forgeController
+export const downloadVideo = forge
   .mutation()
-  .description({
-    en: 'Download YouTube video as audio asynchronously',
-    ms: 'Muat turun video YouTube sebagai audio secara tidak segerak',
-    'zh-CN': '异步下载YouTube视频为音频',
-    'zh-TW': '異步下載YouTube影片為音訊'
-  })
+  .description('Download YouTube video as audio asynchronously')
   .input({
     query: z.object({
       id: z.string()
@@ -80,8 +69,14 @@ const downloadVideo = forgeController
     })
   })
   .callback(
-    async ({ pb, query: { id }, body: { title, uploader, duration }, io }) => {
-      const downloadID = addToTaskPool(io, {
+    async ({
+      pb,
+      query: { id },
+      body: { title, uploader, duration },
+      core: { tasks },
+      io
+    }) => {
+      const downloadID = tasks.add(io, {
         module: 'music',
         description: 'Downloading YouTube video with name: ' + title,
         status: 'pending',
@@ -102,7 +97,7 @@ const downloadVideo = forgeController
       ])
 
       downloadProcess.on('error', err => {
-        updateTaskInPool(io, downloadID, {
+        tasks.update(io, downloadID, {
           status: 'failed',
           error: err instanceof Error ? err.message : String(err)
         })
@@ -116,7 +111,7 @@ const downloadVideo = forgeController
             message.startsWith(prefix)
           )
         ) {
-          updateTaskInPool(io, downloadID, {
+          tasks.update(io, downloadID, {
             status: 'running',
             progress: message
           })
@@ -130,7 +125,7 @@ const downloadVideo = forgeController
           const mp3File = allFiles.find(file => file.startsWith(downloadID))
 
           if (!mp3File) {
-            updateTaskInPool(io, downloadID, {
+            tasks.update(io, downloadID, {
               status: 'failed'
             })
 
@@ -142,7 +137,7 @@ const downloadVideo = forgeController
           )
 
           await pb.create
-            .collection('music__entries')
+            .collection('entries')
             .data({
               name: title,
               author: uploader,
@@ -156,11 +151,11 @@ const downloadVideo = forgeController
 
           fs.unlinkSync(`${process.cwd()}/medium/${mp3File}`)
 
-          updateTaskInPool(io, downloadID, {
+          tasks.update(io, downloadID, {
             status: 'completed'
           })
         } catch (error) {
-          updateTaskInPool(io, downloadID, {
+          tasks.update(io, downloadID, {
             status: 'failed',
             error: error instanceof Error ? error.message : String(error)
           })
@@ -175,46 +170,43 @@ const downloadVideo = forgeController
 const PROMPT =
   'Given a video title and uploader, extract the music title (from the video title if possible, otherwise use the whole title) and author (use composer/lyricist or original artist if mentioned, otherwise use your knowledge to identify the most likely original author; if the title is generic, choose the most widely recognized author). Do not list the uploader as author unless it is clearly original. If author is unknown, write “Unknown”. If additional context is given in the title (like "theme song of ...", "from ...", "cover of ..."), put that in parentheses after the title.'
 
-const parseMusicNameAndAuthor = forgeController
+export const parseMusicNameAndAuthor = forge
   .mutation()
-  .description({
-    en: 'Extract music title and author from YouTube video using AI',
-    ms: 'Ekstrak tajuk muzik dan pengarang daripada video YouTube menggunakan AI',
-    'zh-CN': '使用AI从YouTube视频中提取音乐标题和作者',
-    'zh-TW': '使用AI從YouTube影片中提取音樂標題和作者'
-  })
+  .description('Extract music title and author from YouTube video using AI')
   .input({
     body: z.object({
       title: z.string(),
       uploader: z.string()
     })
   })
-  .callback(async ({ body: { title, uploader }, pb }) => {
-    const response = await fetchAI({
+  .callback(
+    async ({
+      body: { title, uploader },
       pb,
-      provider: 'openai',
-      model: 'gpt-4.1-mini',
-      messages: [
-        {
-          role: 'system',
-          content: PROMPT
-        },
-        {
-          role: 'user',
-          content: `Title: ${title}\nUploader: ${uploader}`
-        }
-      ],
-      structure: z.object({
-        name: z.string(),
-        author: z.string()
+      core: {
+        api: { fetchAI }
+      }
+    }) => {
+      const response = await fetchAI({
+        pb,
+        provider: 'openai',
+        model: 'gpt-4.1-mini',
+        messages: [
+          {
+            role: 'system',
+            content: PROMPT
+          },
+          {
+            role: 'user',
+            content: `Title: ${title}\nUploader: ${uploader}`
+          }
+        ],
+        structure: z.object({
+          name: z.string(),
+          author: z.string()
+        })
       })
-    })
 
-    return response
-  })
-
-export default forgeRouter({
-  getVideoInfo,
-  downloadVideo,
-  parseMusicNameAndAuthor
-})
+      return response
+    }
+  )

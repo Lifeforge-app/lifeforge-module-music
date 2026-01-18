@@ -20,7 +20,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
   const { open } = useModalStore()
 
   const toggleFavouriteMutation = useMutation(
-    forgeAPI.music.entries.toggleFavourite
+    forgeAPI.entries.toggleFavourite
       .input({
         id: music.id
       })
@@ -48,7 +48,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
   }, [music])
 
   const deleteEntryMutation = useMutation(
-    forgeAPI.music.entries.remove
+    forgeAPI.entries.remove
       .input({
         id: music.id
       })
@@ -102,11 +102,11 @@ function SideButtons({ music }: { music: MusicEntry }) {
           label="Download"
           onClick={() => {
             forceDown(
-              forgeAPI.media.input({
+              forgeAPI.getMedia({
                 collectionId: music.collectionId,
                 recordId: music.id,
                 fieldId: music.file
-              }).endpoint,
+              }),
               music.name
             )
           }}

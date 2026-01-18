@@ -13,7 +13,7 @@ export default function VolumeControl() {
     useMusicContext()
 
   const toggleFavouriteMutation = useMutation(
-    forgeAPI.music.entries.toggleFavourite
+    forgeAPI.entries.toggleFavourite
       .input({
         id: currentMusic?.id || ''
       })

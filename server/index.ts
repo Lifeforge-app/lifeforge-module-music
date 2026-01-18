@@ -1,9 +1,9 @@
-import { forgeRouter } from '@functions/routes'
+import { forgeRouter } from '@lifeforge/server-utils'
 
-import entriesRouter from './routes/entries'
-import youtubeRouter from './routes/youtube'
+import * as entriesRoutes from './routes/entries'
+import * as youtubeRoutes from './routes/youtube'
 
 export default forgeRouter({
-  entries: entriesRouter,
-  youtube: youtubeRouter
+  entries: entriesRoutes,
+  youtube: youtubeRoutes
 })

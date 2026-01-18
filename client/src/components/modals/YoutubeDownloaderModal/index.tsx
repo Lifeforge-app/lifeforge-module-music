@@ -1,10 +1,11 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Button, ModalHeader, TextInput, WithQuery } from 'lifeforge-ui'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { type SocketEvent, useSocketContext } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import VideoInfo from './components/VideoInfo'
 
@@ -25,7 +26,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   const videoURL = useDebounce(videoURLinput, 300)
 
   const videoInfoQuery = useQuery(
-    forgeAPI.music.youtube.getVideoInfo
+    forgeAPI.youtube.getVideoInfo
       .input({
         id: videoURL.match(URL_REGEX)?.groups?.id ?? ''
       })
@@ -35,11 +36,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   )
 
   const isAPIKeyExistQuery = useQuery(
-    forgeAPI.apiKeys.entries.checkKeys
-      .input({
-        keys: 'openai'
-      })
-      .queryOptions()
+    forgeAPI.checkAPIKeys({ keys: 'openai' }).queryOptions()
   )
 
   const [targetMusicName, setTargetMusicName] = useState('')
@@ -52,7 +49,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
     try {
       setDownloadProgress('Downloading...')
 
-      const taskId = await forgeAPI.music.youtube.downloadVideo
+      const taskId = await forgeAPI.youtube.downloadVideo
         .input({
           id: videoURL.match(URL_REGEX)?.groups?.id ?? ''
         })
@@ -141,7 +138,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
 
                               try {
                                 const response =
-                                  await forgeAPI.music.youtube.parseMusicNameAndAuthor.mutate(
+                                  await forgeAPI.youtube.parseMusicNameAndAuthor.mutate(
                                     {
                                       title: videoInfoQuery.data?.title || '',
                                       uploader:
