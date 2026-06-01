@@ -1,4 +1,4 @@
-import { WithQuery } from 'lifeforge-ui'
+import { WithQuery } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 

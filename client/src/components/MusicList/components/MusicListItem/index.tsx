@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
-import { Card } from 'lifeforge-ui'
+
+import { Card } from '@lifeforge/ui'
 
 import type { MusicEntry } from '@/providers/MusicProvider'
 

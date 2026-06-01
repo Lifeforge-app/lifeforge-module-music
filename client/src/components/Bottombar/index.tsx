@@ -1,4 +1,4 @@
-import { ContextMenu, ContextMenuItem, FAB, useModalStore } from 'lifeforge-ui'
+import { ContextMenu, ContextMenuItem, FAB, useModalStore } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 

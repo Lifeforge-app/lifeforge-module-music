@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Button } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
+
+import { Button } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 import forgeAPI from '@/utils/forgeAPI'

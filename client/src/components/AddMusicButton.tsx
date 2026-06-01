@@ -1,7 +1,8 @@
-import { Button, ContextMenu, ContextMenuItem } from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { Button, ContextMenu, ContextMenuItem } from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 
 import YoutubeDownloaderModal from './modals/YoutubeDownloaderModal'
 

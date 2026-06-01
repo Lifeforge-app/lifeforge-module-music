@@ -1,11 +1,12 @@
+import { useEffect } from 'react'
+
 import {
   EmptyStateScreen,
   ModuleHeader,
   Scrollbar,
   SearchInput,
   WithQuery
-} from 'lifeforge-ui'
-import { useEffect } from 'react'
+} from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 

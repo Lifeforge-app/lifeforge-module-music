@@ -9,8 +9,9 @@ import {
   useState
 } from 'react'
 import { toast } from 'react-toastify'
-import type { InferOutput } from 'shared'
-import { useAuth } from 'shared'
+
+import type { InferOutput } from '@lifeforge/shared'
+import { useAuth } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 
