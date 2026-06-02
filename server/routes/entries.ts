@@ -1,68 +1,96 @@
 import z from 'zod'
 
 import forge from '../forge'
+import musicSchemas from '../schema'
 
 export const list = forge
-  .query()
-  .description('Retrieve all music entries')
-  .input({})
-  .callback(({ pb }) =>
-    pb.getFullList
-      .collection('entries')
-      .sort(['-is_favourite', 'name'])
-      .execute()
+  .query({
+    description: 'Retrieve all music entries',
+    output: {
+      OK: z.array(musicSchemas.entries)
+    }
+  })
+  .callback(async ({ pb, response }) =>
+    response.ok(
+      await pb.getFullList
+        .collection('entries')
+        .sort(['-is_favourite', 'name'])
+        .execute()
+    )
   )
 
 export const update = forge
-  .mutation()
-  .description('Update music entry details')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: z.object({
-      name: z.string(),
-      author: z.string()
-    })
+  .mutation({
+    description: 'Update music entry details',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: z.object({
+        name: z.string(),
+        author: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: musicSchemas.entries,
+      NOT_FOUND: true
+    }
   })
-  .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('entries').id(id).data(body).execute()
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(
+      await pb.update.collection('entries').id(id).data(body).execute()
+    )
   )
 
 export const remove = forge
-  .mutation()
-  .description('Delete a music entry')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Delete a music entry',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      NO_CONTENT: true,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
+  .callback(async ({ pb, query: { id }, response }) => {
+    await pb.delete.collection('entries').id(id).execute()
+
+    return response.noContent()
   })
-  .statusCode(204)
-  .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('entries').id(id).execute()
-  )
 
 export const toggleFavourite = forge
-  .mutation()
-  .description('Toggle favourite status of a music entry')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Toggle favourite status of a music entry',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: musicSchemas.entries,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .statusCode(200)
-  .callback(async ({ pb, query: { id } }) => {
+  .callback(async ({ pb, query: { id }, response }) => {
     const entry = await pb.getOne.collection('entries').id(id).execute()
 
-    return pb.update
-      .collection('entries')
-      .id(id)
-      .data({ is_favourite: !entry.is_favourite })
-      .execute()
+    return response.ok(
+      await pb.update
+        .collection('entries')
+        .id(id)
+        .data({ is_favourite: !entry.is_favourite })
+        .execute()
+    )
   })

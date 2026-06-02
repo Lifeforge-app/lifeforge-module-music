@@ -5,15 +5,27 @@ import z from 'zod'
 import forge from '../forge'
 
 export const getVideoInfo = forge
-  .query()
-  .description('Retrieve YouTube video metadata')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .query({
+    description: 'Retrieve YouTube video metadata',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    output: {
+      OK: z.object({
+        title: z.string(),
+        uploadDate: z.string(),
+        uploader: z.string(),
+        duration: z.string(),
+        viewCount: z.number(),
+        likeCount: z.number(),
+        thumbnail: z.string()
+      })
+    }
   })
-  .callback(async ({ query: { id } }) => {
-    return new Promise<{
+  .callback(async ({ query: { id }, response }) => {
+    const result = await new Promise<{
       title: string
       uploadDate: string
       uploader: string
@@ -53,20 +65,26 @@ export const getVideoInfo = forge
         }
       )
     })
+
+    return response.ok(result)
   })
 
 export const downloadVideo = forge
-  .mutation()
-  .description('Download YouTube video as audio asynchronously')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: z.object({
-      title: z.string(),
-      uploader: z.string(),
-      duration: z.number()
-    })
+  .mutation({
+    description: 'Download YouTube video as audio asynchronously',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: z.object({
+        title: z.string(),
+        uploader: z.string(),
+        duration: z.number()
+      })
+    },
+    output: {
+      OK: z.string()
+    }
   })
   .callback(
     async ({
@@ -74,7 +92,8 @@ export const downloadVideo = forge
       query: { id },
       body: { title, uploader, duration },
       core: { tasks },
-      io
+      io,
+      response
     }) => {
       const downloadID = tasks.add(io, {
         module: 'music',
@@ -162,22 +181,30 @@ export const downloadVideo = forge
         }
       })
 
-      return downloadID
+      return response.ok(downloadID)
     }
   )
-  .statusCode(202)
 
 const PROMPT =
   'Given a video title and uploader, extract the music title (from the video title if possible, otherwise use the whole title) and author (use composer/lyricist or original artist if mentioned, otherwise use your knowledge to identify the most likely original author; if the title is generic, choose the most widely recognized author). Do not list the uploader as author unless it is clearly original. If author is unknown, write “Unknown”. If additional context is given in the title (like "theme song of ...", "from ...", "cover of ..."), put that in parentheses after the title.'
 
 export const parseMusicNameAndAuthor = forge
-  .mutation()
-  .description('Extract music title and author from YouTube video using AI')
-  .input({
-    body: z.object({
-      title: z.string(),
-      uploader: z.string()
-    })
+  .mutation({
+    description: 'Extract music title and author from YouTube video using AI',
+    input: {
+      body: z.object({
+        title: z.string(),
+        uploader: z.string()
+      })
+    },
+    output: {
+      OK: z
+        .object({
+          name: z.string(),
+          author: z.string()
+        })
+        .nullable()
+    }
   })
   .callback(
     async ({
@@ -185,9 +212,10 @@ export const parseMusicNameAndAuthor = forge
       pb,
       core: {
         api: { fetchAI }
-      }
+      },
+      response
     }) => {
-      const response = await fetchAI({
+      const aiResponse = await fetchAI({
         pb,
         provider: 'openai',
         model: 'gpt-4.1-mini',
@@ -207,6 +235,6 @@ export const parseMusicNameAndAuthor = forge
         })
       })
 
-      return response
+      return response.ok(aiResponse)
     }
   )
