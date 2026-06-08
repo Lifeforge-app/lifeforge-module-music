@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { type SocketEvent, useSocketContext } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import VideoInfo from './components/VideoInfo'
 

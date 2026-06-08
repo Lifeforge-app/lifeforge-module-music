@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'
 import type { InferOutput } from '@lifeforge/shared'
 import { useAuth } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export type MusicEntry = InferOutput<typeof forgeAPI.entries.list>[number]
 

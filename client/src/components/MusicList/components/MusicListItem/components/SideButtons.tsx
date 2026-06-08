@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { forceDown } from '@lifeforge/shared'
 
 import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import UpdateMusicModal from '../../../../modals/UpdateMusicModal'
 

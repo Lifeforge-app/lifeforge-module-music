@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { Button } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export default function VolumeControl() {
   const queryClient = useQueryClient()
