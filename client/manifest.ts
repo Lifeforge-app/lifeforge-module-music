@@ -16,3 +16,4 @@ const { forgeAPI, ...manifest } = createForgeModuleClient({
 export default manifest
 
 export { forgeAPI }
+
