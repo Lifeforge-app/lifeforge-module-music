@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import { toast , Button } from '@lifeforge/ui'
+import { Button, toast } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 

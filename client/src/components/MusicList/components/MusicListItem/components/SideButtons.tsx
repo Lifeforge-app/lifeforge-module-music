@@ -2,7 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useCallback } from 'react'
 
-import { Icon , ConfirmationModal, ContextMenu, ContextMenuItem , useModalStore , toast } from '@lifeforge/ui'
+import {
+  ConfirmationModal,
+  ContextMenu,
+  ContextMenuItem,
+  Icon,
+  toast,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'

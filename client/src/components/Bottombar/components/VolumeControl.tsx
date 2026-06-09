@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { Icon , toast , Button } from '@lifeforge/ui'
+import { Button, Icon, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import { useMusicContext } from '@/providers/MusicProvider'

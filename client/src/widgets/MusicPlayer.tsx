@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import { useRef } from 'react'
+import { Link, useNavigate } from 'react-router'
 
 import type { WidgetConfig } from '@lifeforge/configs'
-import { Link, useNavigate } from 'react-router'
-import { Icon , Button, EmptyStateScreen, Widget } from '@lifeforge/ui'
+import { Button, EmptyStateScreen, Icon, Widget } from '@lifeforge/ui'
 
 import ControlButtons from '@/components/Bottombar/components/ControlButtons'
 import { useMusicContext } from '@/providers/MusicProvider'
