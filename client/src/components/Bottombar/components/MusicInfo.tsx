@@ -1,12 +1,10 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { toast } from 'react-toastify'
 
-import { Button } from '@lifeforge/ui'
+import { Icon , toast , Button } from '@lifeforge/ui'
 
-import { useMusicContext } from '@/providers/MusicProvider'
 import { forgeAPI } from '@/manifest'
+import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function MusicInfo() {
   const queryClient = useQueryClient()
@@ -74,7 +72,7 @@ export default function MusicInfo() {
         }
         variant="plain"
         onClick={() => {
-          toggleFavouriteMutation.mutateAsync({})
+          toggleFavouriteMutation.mutateAsync(undefined)
         }}
       />
     </div>

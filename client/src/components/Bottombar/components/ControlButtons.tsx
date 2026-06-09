@@ -1,7 +1,6 @@
 import clsx from 'clsx'
-import { toast } from 'react-toastify'
 
-import { Button } from '@lifeforge/ui'
+import { toast , Button } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 

@@ -1,11 +1,9 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
 
-import { Button } from '@lifeforge/ui'
+import { Icon , toast , Button } from '@lifeforge/ui'
 
-import { useMusicContext } from '@/providers/MusicProvider'
 import { forgeAPI } from '@/manifest'
+import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function VolumeControl() {
   const queryClient = useQueryClient()
@@ -59,7 +57,7 @@ export default function VolumeControl() {
         }
         variant="plain"
         onClick={() => {
-          toggleFavouriteMutation.mutateAsync({})
+          toggleFavouriteMutation.mutateAsync(undefined)
         }}
       />
       <div className="flex items-center">

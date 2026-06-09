@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
 
-import { FormModal, defineForm } from '@lifeforge/ui'
+import { toast , FormModal, defineForm } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

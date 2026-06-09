@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
-import { Button, ModalHeader, TextInput, WithQuery } from '@lifeforge/ui'
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { type SocketEvent, useSocketContext } from '@lifeforge/shared'
+
+import { type SocketEvent, useSocketContext } from '@lifeforge/api'
+import { Button, ModalHeader, TextInput, WithQuery, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

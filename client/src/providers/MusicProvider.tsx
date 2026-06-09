@@ -8,10 +8,10 @@ import {
   useRef,
   useState
 } from 'react'
-import { toast } from 'react-toastify'
 
-import type { InferOutput } from '@lifeforge/shared'
-import { useAuth } from '@lifeforge/shared'
+import type { InferOutput } from '@lifeforge/api'
+import { useAuth } from '@lifeforge/api'
+import { toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

@@ -1,7 +1,7 @@
-import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { toast } from 'react-toastify'
+
+import { Icon , toast } from '@lifeforge/ui'
 
 import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
 

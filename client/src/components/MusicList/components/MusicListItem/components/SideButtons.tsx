@@ -1,14 +1,11 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { ConfirmationModal, ContextMenu, ContextMenuItem } from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
-import { forceDown } from '@lifeforge/shared'
 
-import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
+import { Icon , ConfirmationModal, ContextMenu, ContextMenuItem , useModalStore , toast } from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
 
 import UpdateMusicModal from '../../../../modals/UpdateMusicModal'
 
@@ -73,7 +70,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
       title: 'Delete Music',
       description: `Are you sure you want to delete "${music.name}"?`,
       onConfirm: async () => {
-        await deleteEntryMutation.mutateAsync({})
+        await deleteEntryMutation.mutateAsync(undefined)
       }
     })
   }, [music])
@@ -88,7 +85,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
             : 'text-bg-500 hover:text-bg-800 dark:hover:text-bg-50'
         )}
         onClick={() => {
-          toggleFavouriteMutation.mutateAsync({})
+          toggleFavouriteMutation.mutateAsync(undefined)
         }}
       >
         <Icon
@@ -101,14 +98,14 @@ function SideButtons({ music }: { music: MusicEntry }) {
           icon="tabler:download"
           label="Download"
           onClick={() => {
-            forceDown(
-              forgeAPI.getMedia({
-                collectionId: music.collectionId,
-                recordId: music.id,
-                fieldId: music.file
-              }),
-              music.name
-            )
+            const a = document.createElement('a')
+            a.href = forgeAPI.getMedia({
+              collectionId: music.collectionId,
+              recordId: music.id,
+              fieldId: music.file
+            })
+            a.download = music.name
+            a.click()
           }}
         />
         <ContextMenuItem
