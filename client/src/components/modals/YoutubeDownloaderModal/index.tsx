@@ -94,7 +94,6 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
     <div className="min-w-[40vw]">
       <ModalHeader
         icon="tabler:brand-youtube"
-        namespace="apps.music"
         title="Download from Youtube"
         onClose={() => {
           onClose()
@@ -106,7 +105,6 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
       <TextInput
         icon="tabler:link"
         label="Video URL"
-        namespace="apps.music"
         placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         value={videoURLinput}
         onChange={setVideoURLInput}
@@ -165,7 +163,6 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
                   }
                   icon="tabler:music"
                   label="Music Name"
-                  namespace="apps.music"
                   placeholder="Beautiful Music"
                   value={targetMusicName}
                   onChange={setTargetMusicName}
@@ -173,7 +170,6 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
                 <TextInput
                   icon="tabler:user"
                   label="Music Author"
-                  namespace="apps.music"
                   placeholder="John Doe"
                   value={targetMusicAuthor}
                   onChange={setTargetMusicAuthor}

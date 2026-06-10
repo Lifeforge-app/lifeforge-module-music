@@ -23,7 +23,6 @@ function BottomBar() {
         <ContextMenuItem
           icon="tabler:brand-youtube"
           label="Download from YouTube"
-          namespace="apps.music"
           onClick={() => open(YoutubeDownloaderModal, {})}
         />
       </ContextMenu>

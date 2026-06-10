@@ -46,7 +46,6 @@ function Music() {
       <div className="music relative flex size-full min-h-0 min-w-0 flex-col sm:mt-0">
         <SearchInput
           debounceMs={300}
-          namespace="apps.music"
           searchTarget="music"
           value={searchQuery}
           onChange={setSearchQuery}
@@ -67,8 +66,7 @@ function Music() {
                         : 'tabler:music-off'
                     }
                     message={{
-                      id: musics.length > 0 ? 'result' : 'music',
-                      namespace: 'apps.music'
+                      id: musics.length > 0 ? 'result' : 'music'
                     }}
                   />
                 )

@@ -26,7 +26,6 @@ export default function MusicPlayer() {
         />
       }
       icon="tabler:music"
-      namespace="apps.music"
       title="Music Player"
     >
       <div className="flex min-h-0 flex-1 flex-col">
@@ -62,7 +61,6 @@ export default function MusicPlayer() {
             CTAButtonProps={{
               className: 'mt-4',
               icon: 'tabler:music',
-              namespace: 'apps.music',
               onClick: () => {
                 navigate('/music')
               },
@@ -71,7 +69,6 @@ export default function MusicPlayer() {
             icon="tabler:disc-off"
             message={{
               id: 'music',
-              namespace: 'apps.music',
               tKey: 'widgets.musicPlayer'
             }}
           />
@@ -82,7 +79,6 @@ export default function MusicPlayer() {
 }
 
 export const config: WidgetConfig = {
-  namespace: 'apps.music',
   id: 'musicPlayer',
   icon: 'tabler:music',
   minW: 2,

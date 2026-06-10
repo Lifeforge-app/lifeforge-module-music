@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   ContextMenu,
@@ -34,7 +34,6 @@ function AddMusicButton() {
       <ContextMenuItem
         icon="tabler:brand-youtube"
         label="Download from Youtube"
-        namespace="apps.music"
         onClick={handleYoutubeDownloaderOpen}
       />
     </ContextMenu>
