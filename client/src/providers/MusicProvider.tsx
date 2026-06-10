@@ -56,11 +56,8 @@ const MusicContext = createContext<IMusicContext | undefined>(undefined)
 
 export default function MusicProvider({ children }: { children: ReactNode }) {
   const { auth } = useAuth()
-
   const audio = useRef(new Audio())
-
   const [searchQuery, setSearchQuery] = useState('')
-
   const [loading, setLoading] = useState(false)
 
   const musicsQuery = useQuery(
@@ -70,15 +67,10 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
   )
 
   const [isPlaying, setIsPlaying] = useState(false)
-
   const [currentMusic, setCurrentMusic] = useState<MusicEntry | null>(null)
-
   const [currentDuration, setCurrentDuration] = useState(0)
-
   const [isShuffle, setIsShuffle] = useState(false)
-
   const [isRepeat, setIsRepeat] = useState(false)
-
   const [volume, setVolume] = useState(80)
 
   const playMusic = async (music: MusicEntry) => {

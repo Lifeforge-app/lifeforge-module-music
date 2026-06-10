@@ -12,7 +12,6 @@ import YoutubeDownloaderModal from './modals/YoutubeDownloaderModal'
 
 function AddMusicButton() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
 
   const handleYoutubeDownloaderOpen = useCallback(() => {

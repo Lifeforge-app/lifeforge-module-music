@@ -10,9 +10,7 @@ import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function MusicPlayer() {
   const { currentMusic, isPlaying } = useMusicContext()
-
   const navigate = useNavigate()
-
   const ref = useRef<HTMLDivElement>(null)
 
   return (

@@ -10,7 +10,6 @@ import VolumeControl from './components/VolumeControl'
 
 function BottomBar() {
   const { open } = useModalStore()
-
   const { currentMusic } = useMusicContext()
 
   return (

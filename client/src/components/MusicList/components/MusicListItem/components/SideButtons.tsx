@@ -18,9 +18,7 @@ import UpdateMusicModal from '../../../../modals/UpdateMusicModal'
 
 function SideButtons({ music }: { music: MusicEntry }) {
   const queryClient = useQueryClient()
-
   const { stopMusic, currentMusic } = useMusicContext()
-
   const { open } = useModalStore()
 
   const toggleFavouriteMutation = useMutation(
@@ -106,6 +104,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
           label="Download"
           onClick={() => {
             const a = document.createElement('a')
+
             a.href = forgeAPI.getMedia({
               collectionId: music.collectionId,
               recordId: music.id,

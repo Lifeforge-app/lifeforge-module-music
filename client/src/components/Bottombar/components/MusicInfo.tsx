@@ -8,7 +8,6 @@ import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function MusicInfo() {
   const queryClient = useQueryClient()
-
   const { currentMusic, setCurrentMusic, isPlaying } = useMusicContext()
 
   const toggleFavouriteMutation = useMutation(

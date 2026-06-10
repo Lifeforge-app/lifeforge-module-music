@@ -14,7 +14,6 @@ const URL_REGEX =
 
 function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient()
-
   const socket = useSocketContext()
 
   const [downloadProgress, setDownloadProgress] = useState<string | boolean>(
@@ -22,7 +21,6 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   )
 
   const [videoURLinput, setVideoURLInput] = useState('')
-
   const videoURL = useDebounce(videoURLinput, 300)
 
   const videoInfoQuery = useQuery(
@@ -40,9 +38,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   )
 
   const [targetMusicName, setTargetMusicName] = useState('')
-
   const [targetMusicAuthor, setTargetMusicAuthor] = useState('')
-
   const [aiParsingLoading, setAiParsingLoading] = useState(false)
 
   async function downloadVideo() {
