@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import {
   Button,
@@ -13,7 +13,7 @@ import YoutubeDownloaderModal from './modals/YoutubeDownloaderModal'
 function AddMusicButton() {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.music')
+  const { t } = useModuleTranslation()
 
   const handleYoutubeDownloaderOpen = useCallback(() => {
     open(YoutubeDownloaderModal, {})
