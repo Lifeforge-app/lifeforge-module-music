@@ -39,10 +39,7 @@ function Music() {
 
   return (
     <>
-      <ModuleHeader
-        actionButton={<AddMusicButton />}
-        totalItems={musicsQuery.data?.length}
-      />
+      <ModuleHeader trailing={<AddMusicButton />} />
       <div className="music relative flex size-full min-h-0 min-w-0 flex-col sm:mt-0">
         <SearchInput
           debounceMs={300}

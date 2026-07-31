@@ -29,7 +29,7 @@ function AddMusicButton() {
           new
         </Button>
       }
-      classNames={{ wrapper: 'hidden md:block' }}
+      display={{ base: 'none', md: 'block' }}
     >
       <ContextMenuItem
         icon="tabler:brand-youtube"
