@@ -5,12 +5,16 @@ import { useMusicContext } from '@/providers/MusicProvider'
 import MusicListItem from './components/MusicListItem'
 
 function MusicList({ searchQuery }: { searchQuery: string }) {
-  const { musicsQuery } = useMusicContext()
+  const { musicsQuery, currentMusic } = useMusicContext()
 
   return (
     <WithQuery query={musicsQuery}>
       {musics => (
-        <Stack as="ul" gap="sm" pb="2xl">
+        <Stack
+          as="ul"
+          gap="sm"
+          style={{ paddingBottom: currentMusic ? '9rem' : '2rem' }}
+        >
           {musics
             .filter(music =>
               music.name.toLowerCase().includes(searchQuery.toLowerCase())
