@@ -122,7 +122,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
         {URL_REGEX.test(videoURL) && (
           <WithQuery query={videoInfoQuery}>
             {videoInfo => (
-              <Stack gap="sm">
+              <Stack>
                 <VideoInfo videoInfo={videoInfo} />
                 <TextInput
                   actionButtonProps={
