@@ -1,42 +1,52 @@
-import clsx from 'clsx'
 import { useMemo } from 'react'
 
-import { Icon, toast } from '@lifeforge/ui'
+import { Box, Icon, Transition, toast } from '@lifeforge/ui'
 
 import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
 
 function PlayStateIndicator({ music }: { music: MusicEntry }) {
   const { currentMusic, isPlaying, togglePlay } = useMusicContext()
 
+  const isActive = currentMusic?.id === music.id
+
   const stateIcon = useMemo(() => {
-    if (currentMusic?.id === music.id) {
+    if (isActive) {
       return isPlaying ? 'tabler:disc' : 'tabler:pause'
     }
 
     return 'tabler:play'
-  }, [currentMusic, isPlaying])
-
-  const stateClassName = useMemo(() => {
-    if (currentMusic?.id === music.id) {
-      return isPlaying
-        ? 'animate-spin text-custom-500'
-        : 'text-bg-800 dark:text-bg-50'
-    }
-
-    return 'text-bg-500 hover:bg-bg-100 hover:text-bg-800 dark:hover:bg-bg-800 dark:hover:text-bg-50'
-  }, [currentMusic, isPlaying])
+  }, [isActive, isPlaying])
 
   return (
-    <button
-      className={clsx('rounded-lg p-4 transition-all', stateClassName)}
-      onClick={() => {
-        togglePlay(music).catch(err => {
-          toast.error(`Failed to play music. Error: ${err}`)
-        })
-      }}
-    >
-      <Icon className="text-xl" icon={stateIcon} />
-    </button>
+    <Transition duration={150} property="all">
+      <Box
+        as="button"
+        bg={isActive ? undefined : { hover: 'bg-100', darkHover: 'bg-800' }}
+        p="md"
+        r="lg"
+        onClick={() => {
+          togglePlay(music).catch(err => {
+            toast.error(`Failed to play music. Error: ${err}`)
+          })
+        }}
+      >
+        <Icon
+          color={
+            isActive
+              ? isPlaying
+                ? 'primary'
+                : { base: 'bg-800', dark: 'bg-50' }
+              : { base: 'bg-500', hover: 'bg-800', darkHover: 'bg-50' }
+          }
+          icon={stateIcon}
+          style={
+            isActive && isPlaying
+              ? { animation: 'rotation 1s linear infinite' }
+              : undefined
+          }
+        />
+      </Box>
+    </Transition>
   )
 }
 

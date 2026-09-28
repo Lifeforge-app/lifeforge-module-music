@@ -35,7 +35,7 @@ export const getVideoInfo = forge
       thumbnail: string
     }>((resolve, reject) => {
       exec(
-        `${process.cwd()}/src/core/bin/yt-dlp --skip-download --print "title,upload_date,uploader,duration,view_count,like_count,thumbnail" "https://www.youtube.com/watch?v=${id}"`,
+        `yt-dlp --skip-download --print "title,upload_date,uploader,duration,view_count,like_count,thumbnail" "https://www.youtube.com/watch?v=${id}"`,
         (err, stdout) => {
           if (err) {
             reject(err)
@@ -102,7 +102,7 @@ export const downloadVideo = forge
         progress: 'Initializing download'
       })
 
-      const downloadProcess = spawn(`${process.cwd()}/src/core/bin/yt-dlp`, [
+      const downloadProcess = spawn('yt-dlp', [
         '-f',
         'bestaudio',
         '-o',

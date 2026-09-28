@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import { Card } from '@lifeforge/ui'
+import { Box, Card, Flex, Text } from '@lifeforge/ui'
 
 import type { MusicEntry } from '@/providers/MusicProvider'
 
@@ -15,23 +15,43 @@ function formatDuration(duration: string): string {
 
 function MusicListItem({ music }: { music: MusicEntry }) {
   return (
-    <Card className="flex items-center p-2!">
-      <div className="flex w-full min-w-0 items-center gap-2 sm:w-7/12 sm:shrink-0 lg:w-5/12">
+    <Card align="center" direction="row" p="sm">
+      <Flex
+        align="center"
+        flexShrink={{ sm: '0' }}
+        gap="sm"
+        minWidth="0"
+        width={{ base: '100%', sm: '58.3333%', lg: '41.6667%' }}
+      >
         <PlayStateIndicator music={music} />
-        <div className="w-full min-w-0">
-          <p className="w-full min-w-0 truncate pr-8">{music.name}</p>
-          <p className="text-bg-500 block w-full min-w-0 truncate text-sm md:hidden">
-            {music.author} <span className="text-bg-500">•</span>{' '}
+        <Box minWidth="0" width="100%">
+          <Text truncate as="p" pr="xl">
+            {music.name}
+          </Text>
+          <Text
+            truncate
+            as="p"
+            color="muted"
+            display={{ base: 'block', md: 'none' }}
+            size="sm"
+          >
+            {music.author} <Text as="span">•</Text>{' '}
             {formatDuration(music.duration)}
-          </p>
-        </div>
-      </div>
-      <div className="text-bg-500 hidden w-3/12 min-w-0 lg:block">
-        <p className="w-full min-w-0 truncate pr-8">{music.author}</p>
-      </div>
-      <div className="text-bg-500 hidden w-3/12 min-w-0 sm:block lg:w-2/12">
-        {formatDuration(music.duration)}
-      </div>
+          </Text>
+        </Box>
+      </Flex>
+      <Box display={{ base: 'none', lg: 'block' }} minWidth="0" width="25%">
+        <Text truncate as="p" color="muted" pr="xl">
+          {music.author}
+        </Text>
+      </Box>
+      <Box
+        display={{ base: 'none', sm: 'block' }}
+        minWidth="0"
+        width={{ base: '25%', lg: '16.6667%' }}
+      >
+        <Text color="muted">{formatDuration(music.duration)}</Text>
+      </Box>
       <SideButtons music={music} />
     </Card>
   )

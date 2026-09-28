@@ -1,4 +1,11 @@
-import { ContextMenu, ContextMenuItem, FAB, useModalStore } from '@lifeforge/ui'
+import {
+  Card,
+  ContextMenuItem,
+  FAB,
+  Flex,
+  Stack,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 
@@ -13,30 +20,38 @@ function BottomBar() {
   const { currentMusic } = useMusicContext()
 
   return (
-    <div className="absolute bottom-8 left-0 w-full space-y-3">
-      <ContextMenu
-        buttonComponent={<FAB className="static!" visibilityBreakpoint="md" />}
-        classNames={{
-          wrapper: 'fixed bottom-6 right-6'
-        }}
-      >
+    <Stack bottom="1rem" left="0" position="absolute" width="100%">
+      <FAB visibilityBreakpoint="md">
         <ContextMenuItem
           icon="tabler:brand-youtube"
           label="Download from YouTube"
           onClick={() => open(YoutubeDownloaderModal, {})}
         />
-      </ContextMenu>
+      </FAB>
       {currentMusic !== null && (
-        <div className="flex-between bg-bg-50 dark:bg-bg-900 flex w-full flex-col gap-3 rounded-lg p-4 shadow-lg">
-          <div className="flex-between flex w-full flex-col gap-3 md:flex-row md:gap-8">
+        <Card
+          shadow
+          bg={{ base: 'bg-50', dark: 'bg-800' }}
+          gap="md"
+          justify="between"
+          p="md"
+          r="lg"
+          width="100%"
+        >
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            gap={{ base: 'sm', md: 'xl' }}
+            justify="between"
+            width="100%"
+          >
             <MusicInfo />
             <ControlButtons />
             <VolumeControl />
-          </div>
+          </Flex>
           <DurationSlider />
-        </div>
+        </Card>
       )}
-    </div>
+    </Stack>
   )
 }
 

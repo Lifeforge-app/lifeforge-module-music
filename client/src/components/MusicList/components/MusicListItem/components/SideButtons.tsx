@@ -1,12 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
 import { useCallback } from 'react'
 
+import { useForgeMutation } from '@lifeforge/api'
 import {
+  Box,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  Flex,
   Icon,
+  Transition,
+  colorWithOpacity,
   toast,
   useModalStore
 } from '@lifeforge/ui'
@@ -17,30 +20,22 @@ import { type MusicEntry, useMusicContext } from '@/providers/MusicProvider'
 import UpdateMusicModal from '../../../../modals/UpdateMusicModal'
 
 function SideButtons({ music }: { music: MusicEntry }) {
-  const queryClient = useQueryClient()
   const { stopMusic, currentMusic } = useMusicContext()
   const { open } = useModalStore()
 
-  const toggleFavouriteMutation = useMutation(
-    forgeAPI.entries.toggleFavourite
-      .input({
-        id: music.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
-          })
-          toast.success(
-            music.is_favourite
-              ? `Removed "${music.name}" from favourites`
-              : `Added "${music.name}" to favourites`
-          )
-        },
-        onError: error => {
-          toast.error(`Failed to toggle favourite: ${error.message}`)
-        }
-      })
+  const toggleFavouriteMutation = useForgeMutation(
+    forgeAPI.entries.toggleFavourite.input({ id: music.id }),
+    {
+      action: music.is_favourite ? 'unfavourite' : 'favourite',
+      queryKey: forgeAPI.entries.key,
+      onSuccess: () => {
+        toast.success(
+          music.is_favourite
+            ? `Removed "${music.name}" from favourites`
+            : `Added "${music.name}" to favourites`
+        )
+      }
+    }
   )
 
   const handleUpdateEntry = useCallback(() => {
@@ -49,25 +44,17 @@ function SideButtons({ music }: { music: MusicEntry }) {
     })
   }, [music])
 
-  const deleteEntryMutation = useMutation(
-    forgeAPI.entries.remove
-      .input({
-        id: music.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
-          })
-
-          if (currentMusic?.id === music.id) {
-            stopMusic()
-          }
-        },
-        onError: error => {
-          toast.error(`Failed to delete music: ${error.message}`)
+  const deleteEntryMutation = useForgeMutation(
+    forgeAPI.entries.remove.input({ id: music.id }),
+    {
+      action: 'delete',
+      queryKey: forgeAPI.entries.key,
+      onSuccess: () => {
+        if (currentMusic?.id === music.id) {
+          stopMusic()
         }
-      })
+      }
+    }
   )
 
   const handleDeleteEntry = useCallback(() => {
@@ -81,23 +68,33 @@ function SideButtons({ music }: { music: MusicEntry }) {
   }, [music])
 
   return (
-    <div className="flex w-auto min-w-0 shrink-0 items-center justify-end sm:w-2/12">
-      <button
-        className={clsx(
-          'hover:bg-bg-100 dark:hover:bg-bg-800/50 rounded-lg p-4 transition-all',
-          music.is_favourite
-            ? 'text-red-500 hover:text-red-600'
-            : 'text-bg-500 hover:text-bg-800 dark:hover:text-bg-50'
-        )}
-        onClick={() => {
-          toggleFavouriteMutation.mutateAsync(undefined)
-        }}
-      >
-        <Icon
-          className="text-xl"
-          icon={!music.is_favourite ? 'tabler:heart' : 'tabler:heart-filled'}
-        />
-      </button>
+    <Flex
+      align="center"
+      flexShrink="0"
+      justify="end"
+      minWidth="0"
+      width={{ base: 'auto', sm: '16.6667%' }}
+    >
+      <Transition duration={150} property="all">
+        <Box
+          as="button"
+          bg={{ hover: 'bg-100', darkHover: colorWithOpacity('bg-800', '50%') }}
+          p="md"
+          r="lg"
+          onClick={() => {
+            toggleFavouriteMutation.mutateAsync(undefined)
+          }}
+        >
+          <Icon
+            color={
+              music.is_favourite
+                ? { base: 'red-500', hover: 'red-600' }
+                : { base: 'bg-500', hover: 'bg-800', darkHover: 'bg-50' }
+            }
+            icon={!music.is_favourite ? 'tabler:heart' : 'tabler:heart-filled'}
+          />
+        </Box>
+      </Transition>
       <ContextMenu>
         <ContextMenuItem
           icon="tabler:download"
@@ -126,7 +123,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
           onClick={handleDeleteEntry}
         />
       </ContextMenu>
-    </div>
+    </Flex>
   )
 }
 

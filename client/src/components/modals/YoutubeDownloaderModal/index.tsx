@@ -3,7 +3,16 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { useEffect, useState } from 'react'
 
 import { type SocketEvent, useSocketContext } from '@lifeforge/api'
-import { Button, ModalHeader, TextInput, WithQuery, toast } from '@lifeforge/ui'
+import {
+  Box,
+  Button,
+  ModalHeader,
+  Stack,
+  Text,
+  TextInput,
+  WithQuery,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
@@ -62,7 +71,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
           toast.success('Music downloaded successfully!')
           setDownloadProgress(false)
           queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
+            queryKey: forgeAPI.entries.key
           })
           onClose()
         } else if (data.status === 'failed') {
@@ -91,14 +100,14 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
   }, [videoInfoQuery.data])
 
   return (
-    <div className="min-w-[40vw]">
+    <Box minWidth="40vw">
       <ModalHeader
         icon="tabler:brand-youtube"
         title="Download from Youtube"
         onClose={() => {
           onClose()
           queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
+            queryKey: forgeAPI.entries.key
           })
         }}
       />
@@ -109,11 +118,11 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
         value={videoURLinput}
         onChange={setVideoURLInput}
       />
-      <div className="mt-3">
+      <Box mt="md">
         {URL_REGEX.test(videoURL) && (
           <WithQuery query={videoInfoQuery}>
             {videoInfo => (
-              <div className="space-y-3">
+              <Stack gap="sm">
                 <VideoInfo videoInfo={videoInfo} />
                 <TextInput
                   actionButtonProps={
@@ -169,34 +178,36 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
                 />
                 <TextInput
                   icon="tabler:user"
-                  label="Music Author"
+                  label="Author"
                   placeholder="John Doe"
                   value={targetMusicAuthor}
                   onChange={setTargetMusicAuthor}
                 />
                 <Button
-                  className="mt-6 w-full max-w-full"
                   icon={
                     downloadProgress
                       ? 'svg-spinners:ring-resize'
                       : 'tabler:download'
                   }
                   loading={!!downloadProgress}
+                  maxWidth="100%"
+                  mt="lg"
+                  width="100%"
                   onClick={downloadVideo}
                 >
                   {downloadProgress ? 'Downloading' : 'Download'}
                 </Button>
                 {downloadProgress && (
-                  <div className="text-bg-500 mt-2 text-left text-sm">
+                  <Text as="div" color="muted" mt="sm" size="sm">
                     {downloadProgress}
-                  </div>
+                  </Text>
                 )}
-              </div>
+              </Stack>
             )}
           </WithQuery>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

@@ -1,9 +1,17 @@
-import clsx from 'clsx'
 import { useRef } from 'react'
 import { Link, useNavigate } from 'react-router'
 
 import type { WidgetConfig } from '@lifeforge/configs'
-import { Button, EmptyStateScreen, Icon, Widget } from '@lifeforge/ui'
+import {
+  Box,
+  Button,
+  EmptyStateScreen,
+  Flex,
+  Icon,
+  Text,
+  Widget,
+  colorWithOpacity
+} from '@lifeforge/ui'
 
 import ControlButtons from '@/components/Bottombar/components/ControlButtons'
 import { useMusicContext } from '@/providers/MusicProvider'
@@ -19,8 +27,8 @@ export default function MusicPlayer() {
       actionComponent={
         <Button
           as={Link}
-          className="p-2!"
           icon="tabler:chevron-right"
+          p="sm"
           to="/music"
           variant="plain"
         />
@@ -28,28 +36,52 @@ export default function MusicPlayer() {
       icon="tabler:music"
       title="Music Player"
     >
-      <div className="flex min-h-0 flex-1 flex-col">
+      <Flex direction="column" flex="1" minHeight="0">
         {currentMusic !== null ? (
           <>
-            <div className="shadow-custom bg-bg-100/50 dark:bg-bg-800/50 flex min-h-0 w-full flex-1 items-center justify-center rounded-md py-8">
-              <Icon
-                className={clsx(
-                  'aspect-square h-full w-1/2',
-                  isPlaying
-                    ? 'text-custom-500 animate-spin'
-                    : 'text-bg-300 dark:text-bg-700'
-                )}
-                icon="tabler:disc"
-              />
-            </div>
-            <div className="my-4 flex flex-col items-center gap-1">
-              <h2 className="line-clamp-2 text-center text-lg font-semibold">
+            <Flex
+              shadow
+              align="center"
+              bg={{
+                base: colorWithOpacity('bg-100', '50%'),
+                dark: colorWithOpacity('bg-800', '50%')
+              }}
+              flex="1"
+              justify="center"
+              minHeight="0"
+              py="xl"
+              r="md"
+              width="100%"
+            >
+              <Box aspectRatio="1" width="50%">
+                <Icon
+                  color={
+                    isPlaying ? 'primary' : { base: 'bg-300', dark: 'bg-700' }
+                  }
+                  icon="tabler:disc"
+                  size="100%"
+                  style={
+                    isPlaying
+                      ? { animation: 'rotation 1s linear infinite' }
+                      : undefined
+                  }
+                />
+              </Box>
+            </Flex>
+            <Flex align="center" direction="column" gap="xs" my="md">
+              <Text
+                align="center"
+                as="h2"
+                lineClamp={2}
+                size="lg"
+                weight="semibold"
+              >
                 {currentMusic?.name}
-              </h2>
-              <p className="text-bg-500 line-clamp-2 text-center">
+              </Text>
+              <Text align="center" as="p" color="muted" lineClamp={2}>
                 {currentMusic?.author}
-              </p>
-            </div>
+              </Text>
+            </Flex>
             <ControlButtons
               isWidget
               isFull={(ref.current?.getBoundingClientRect().width ?? 0) > 300}
@@ -59,8 +91,8 @@ export default function MusicPlayer() {
           <EmptyStateScreen
             smaller
             CTAButtonProps={{
-              className: 'mt-4',
               icon: 'tabler:music',
+              mt: 'md',
               onClick: () => {
                 navigate('/music')
               },
@@ -73,7 +105,7 @@ export default function MusicPlayer() {
             }}
           />
         )}
-      </div>
+      </Flex>
     </Widget>
   )
 }

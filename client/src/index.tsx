@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import {
   EmptyStateScreen,
+  Flex,
   ModuleHeader,
   Scrollbar,
   SearchInput,
@@ -40,14 +41,28 @@ function Music() {
   return (
     <>
       <ModuleHeader trailing={<AddMusicButton />} />
-      <div className="music relative flex size-full min-h-0 min-w-0 flex-col sm:mt-0">
+      <Flex
+        className="music"
+        direction="column"
+        height="100%"
+        minHeight="0"
+        minWidth="0"
+        position="relative"
+        width="100%"
+      >
         <SearchInput
           debounceMs={300}
           searchTarget="music"
           value={searchQuery}
           onChange={setSearchQuery}
         />
-        <div className="relative mt-4 flex size-full min-w-0">
+        <Flex
+          height="100%"
+          minWidth="0"
+          mt="md"
+          position="relative"
+          width="100%"
+        >
           <Scrollbar>
             <WithQuery query={musicsQuery}>
               {musics =>
@@ -70,9 +85,9 @@ function Music() {
               }
             </WithQuery>
           </Scrollbar>
-        </div>
+        </Flex>
         <BottomBar />
-      </div>
+      </Flex>
     </>
   )
 }

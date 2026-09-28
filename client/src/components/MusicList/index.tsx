@@ -1,4 +1,4 @@
-import { WithQuery } from '@lifeforge/ui'
+import { Stack, WithQuery } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 
@@ -10,7 +10,7 @@ function MusicList({ searchQuery }: { searchQuery: string }) {
   return (
     <WithQuery query={musicsQuery}>
       {musics => (
-        <ul className="space-y-3 pb-12">
+        <Stack as="ul" gap="sm" pb="2xl">
           {musics
             .filter(music =>
               music.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -18,7 +18,7 @@ function MusicList({ searchQuery }: { searchQuery: string }) {
             .map(music => (
               <MusicListItem key={music.id} music={music} />
             ))}
-        </ul>
+        </Stack>
       )}
     </WithQuery>
   )

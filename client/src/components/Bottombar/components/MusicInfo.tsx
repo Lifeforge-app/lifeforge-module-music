@@ -1,41 +1,40 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
-
-import { Button, Icon, toast } from '@lifeforge/ui'
+import { useForgeMutation } from '@lifeforge/api'
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  Text,
+  colorWithOpacity,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import { useMusicContext } from '@/providers/MusicProvider'
 
 export default function MusicInfo() {
-  const queryClient = useQueryClient()
   const { currentMusic, setCurrentMusic, isPlaying } = useMusicContext()
 
-  const toggleFavouriteMutation = useMutation(
-    forgeAPI.entries.toggleFavourite
-      .input({
-        id: currentMusic?.id || ''
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          if (!currentMusic) return
-          queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
-          })
-          setCurrentMusic(prev => {
-            if (!prev) return null
+  const toggleFavouriteMutation = useForgeMutation(
+    forgeAPI.entries.toggleFavourite.input({ id: currentMusic?.id || '' }),
+    {
+      action: currentMusic?.is_favourite ? 'unfavourite' : 'favourite',
+      queryKey: forgeAPI.entries.key,
+      onSuccess: () => {
+        if (!currentMusic) return
 
-            return { ...prev, is_favourite: !prev.is_favourite }
-          })
-          toast.success(
-            currentMusic.is_favourite
-              ? `Removed "${currentMusic.name}" from favourites`
-              : `Added "${currentMusic.name}" to favourites`
-          )
-        },
-        onError: error => {
-          toast.error(`Failed to toggle favourite: ${error.message}`)
-        }
-      })
+        setCurrentMusic(prev => {
+          if (!prev) return null
+
+          return { ...prev, is_favourite: !prev.is_favourite }
+        })
+        toast.success(
+          currentMusic.is_favourite
+            ? `Removed "${currentMusic.name}" from favourites`
+            : `Added "${currentMusic.name}" to favourites`
+        )
+      }
+    }
   )
 
   if (currentMusic === null) {
@@ -43,37 +42,56 @@ export default function MusicInfo() {
   }
 
   return (
-    <div className="flex-between flex w-full min-w-0 md:w-1/3">
-      <div className="flex w-full min-w-0 items-center">
-        <div className="bg-custom-500/20 flex size-12 shrink-0 items-center justify-center rounded-md">
+    <Flex
+      justify="between"
+      minWidth="0"
+      width={{ base: '100%', md: '33.3333%' }}
+    >
+      <Flex align="center" minWidth="0" width="100%">
+        <Flex
+          align="center"
+          bg={colorWithOpacity('custom-500', '20%')}
+          flexShrink="0"
+          height="3rem"
+          justify="center"
+          r="md"
+          width="3rem"
+        >
           <Icon
-            className={clsx(
-              'text-custom-500 text-3xl',
-              isPlaying && 'animate-spin'
-            )}
+            color="primary"
             icon="tabler:disc"
+            size="1.875rem"
+            style={
+              isPlaying
+                ? { animation: 'rotation 1s linear infinite' }
+                : undefined
+            }
           />
-        </div>
-        <div className="ml-4 w-full min-w-0">
-          <p className="min-w-0 truncate font-semibold">{currentMusic.name}</p>
-          <p className="text-bg-500 text-sm">{currentMusic.author}</p>
-        </div>
-      </div>
+        </Flex>
+        <Box minWidth="0" ml="md" width="100%">
+          <Text truncate as="p" weight="semibold">
+            {currentMusic.name}
+          </Text>
+          <Text as="p" color="muted" size="sm">
+            {currentMusic.author}
+          </Text>
+        </Box>
+      </Flex>
       <Button
-        className={clsx(
-          'md:hidden',
-          currentMusic.is_favourite
-            ? 'text-red-500 hover:text-red-600'
-            : 'text-bg-500 hover:text-bg-800 dark:hover:text-bg-50'
-        )}
+        display={{ base: 'flex', md: 'none' }}
         icon={
           currentMusic.is_favourite ? 'tabler:heart-filled' : 'tabler:heart'
         }
+        iconProps={{
+          color: currentMusic.is_favourite
+            ? { base: 'red-500', hover: 'red-600' }
+            : { base: 'bg-500', hover: 'bg-800', darkHover: 'bg-50' }
+        }}
         variant="plain"
         onClick={() => {
           toggleFavouriteMutation.mutateAsync(undefined)
         }}
       />
-    </div>
+    </Flex>
   )
 }

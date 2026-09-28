@@ -3,48 +3,86 @@ import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import humanNumber from 'human-number'
 
-import { Icon } from '@lifeforge/ui'
+import {
+  Bordered,
+  Box,
+  Flex,
+  Icon,
+  Text,
+  colorWithOpacity,
+  surface
+} from '@lifeforge/ui'
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 function VideoInfo({ videoInfo }: { videoInfo: any }) {
   return (
-    <div className="component-bg-lighter shadow-custom flex w-full flex-col items-center gap-6 rounded-md p-4 md:flex-row">
-      <div className="border-bg-800 relative shrink-0 overflow-hidden rounded-md border md:w-64">
+    <Flex
+      shadow
+      align="center"
+      bg={surface.light}
+      direction={{ base: 'column', md: 'row' }}
+      gap="lg"
+      p="md"
+      r="md"
+      width="100%"
+    >
+      <Bordered
+        borderColor="bg-800"
+        borderWidth="1px"
+        flexShrink="0"
+        overflow="hidden"
+        position="relative"
+        r="md"
+        width={{ md: '16rem' }}
+      >
         <img
           alt=""
-          className="size-full object-cover"
           src={videoInfo.thumbnail}
+          style={{ height: '100%', objectFit: 'cover', width: '100%' }}
         />
-        <p className="bg-bg-900/70 text-bg-50 absolute right-2 bottom-2 rounded-md px-1.5 py-0.5">
+        <Text
+          as="p"
+          bg={colorWithOpacity('bg-900', '70%')}
+          color="bg-50"
+          position="absolute"
+          px="xs"
+          py="xs"
+        >
           {dayjs
             .duration(+videoInfo.duration, 'second')
             .format(+videoInfo.duration > 3600 ? 'H:mm:ss' : 'm:ss')}
-        </p>
-      </div>
-      <div>
-        <h2 className="line-clamp-2 text-2xl font-medium">{videoInfo.title}</h2>
-        <p className="text-custom-500 mt-1">{videoInfo.uploader}</p>
+        </Text>
+      </Bordered>
+      <Box>
+        <Text as="h2" lineClamp={2} size="2xl" weight="medium">
+          {videoInfo.title}
+        </Text>
+        <Text as="p" color="primary" mt="xs">
+          {videoInfo.uploader}
+        </Text>
         {videoInfo.uploadDate !== undefined && (
-          <p className="text-bg-500 mt-4">
+          <Text as="p" color="muted" mt="md">
             {humanNumber(+videoInfo.viewCount, n =>
               Number.parseFloat(`${n}`).toFixed(2)
             )}{' '}
             views • {dayjs(videoInfo.uploadDate, 'YYYYMMDD').fromNow()}
-          </p>
+          </Text>
         )}
         {videoInfo.likeCount !== undefined && (
-          <p className="text-bg-500 mt-1 flex items-center gap-1">
+          <Flex align="center" gap="xs" mt="xs">
             <Icon icon="uil:thumbs-up" />{' '}
-            {humanNumber(+videoInfo.likeCount, n =>
-              Number.parseFloat(`${n}`).toFixed(2)
-            )}{' '}
-            likes
-          </p>
+            <Text color="muted">
+              {humanNumber(+videoInfo.likeCount, n =>
+                Number.parseFloat(`${n}`).toFixed(2)
+              )}{' '}
+              likes
+            </Text>
+          </Flex>
         )}
-      </div>
-    </div>
+      </Box>
+    </Flex>
   )
 }
 

@@ -1,42 +1,72 @@
-@reference 'lifeforge-ui/dist';
+.music input[type='range'].main {
+  -webkit-appearance: none;
+  appearance: none;
+  accent-color: var(--color-custom-500);
+  background-image: linear-gradient(
+    to right,
+    var(--color-custom-500),
+    var(--color-custom-500)
+  );
+  background-repeat: no-repeat;
+}
 
-@layer custom {
-  .music input[type='range'].main {
-    @apply accent-custom-500 from-custom-500 to-custom-500 appearance-none bg-linear-to-r bg-no-repeat;
-  }
+.music input[type='range'].secondary {
+  accent-color: var(--color-bg-500);
+}
 
-  .music input[type='range'].secondary {
-    @apply accent-bg-500 dark:accent-bg-100;
-  }
+.dark .music input[type='range'].secondary {
+  accent-color: var(--color-bg-100);
+}
 
-  .music input[type='range']::-webkit-slider-thumb {
-    @apply h-0 w-0 appearance-none border-none;
-  }
+.music input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+  border: none;
+}
 
-  .music input[type='range']::-moz-range-thumb {
-    @apply h-0 w-0 appearance-none border-none;
-  }
+.music input[type='range']::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+  border: none;
+}
 
-  .music input[type='range']::-webkit-progress-value,
-  .music input[type='range']::-moz-range-progress {
-    @apply h-full rounded-full;
-  }
+.music input[type='range']::-webkit-progress-value,
+.music input[type='range']::-moz-range-progress {
+  height: 100%;
+  border-radius: 9999px;
+}
 
-  .music input[type='range'].main::-webkit-progress-value,
-  .music input[type='range'].main::-moz-range-progress {
-    @apply bg-custom-500! h-full appearance-none rounded-full;
-  }
+.music input[type='range'].main::-webkit-progress-value,
+.music input[type='range'].main::-moz-range-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-custom-500) !important;
+}
 
-  .music input[type='range'].secondary::-webkit-progress-value,
-  .music input[type='range'].secondary::-moz-range-progress {
-    @apply bg-bg-500 dark:bg-bg-100 h-full appearance-none rounded-full;
-  }
+.music input[type='range'].secondary::-webkit-progress-value,
+.music input[type='range'].secondary::-moz-range-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-bg-500);
+}
 
-  progress::-webkit-progress-value {
-    @apply bg-custom-500!;
-  }
+.dark .music input[type='range'].secondary::-webkit-progress-value,
+.dark .music input[type='range'].secondary::-moz-range-progress {
+  background-color: var(--color-bg-100);
+}
 
-  progress::-moz-progress-bar {
-    @apply bg-custom-500!;
-  }
+progress::-webkit-progress-value {
+  background-color: var(--color-custom-500) !important;
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--color-custom-500) !important;
 }

@@ -1,6 +1,4 @@
-import clsx from 'clsx'
-
-import { Button, toast } from '@lifeforge/ui'
+import { Button, Flex, toast } from '@lifeforge/ui'
 
 import { useMusicContext } from '@/providers/MusicProvider'
 
@@ -28,7 +26,11 @@ export default function ControlButtons({
   }
 
   return (
-    <div className={clsx('flex-center gap-2', !isWidget && 'xl:w-1/3')}>
+    <Flex
+      centered
+      gap="sm"
+      width={!isWidget ? { xl: '33.3333%' } : undefined}
+    >
       {(isFull || !isWidget) && (
         <Button
           icon="uil:shuffle"
@@ -62,6 +64,6 @@ export default function ControlButtons({
           }}
         />
       )}
-    </div>
+    </Flex>
   )
 }

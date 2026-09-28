@@ -1,10 +1,18 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import { FormModal, defineForm, toast } from '@lifeforge/ui'
+import { useForgeMutation } from '@lifeforge/api'
+import { FormModal, TextField, createDefaultValues, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
 import type { MusicEntry } from '../../providers/MusicProvider'
+
+const schema = z.object({
+  name: z.string().min(1, 'Required'),
+  author: z.string().min(1, 'Required')
+})
 
 function UpdateMusicModal({
   data: { initialData },
@@ -15,66 +23,27 @@ function UpdateMusicModal({
   }
   onClose: () => void
 }) {
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation(
-    forgeAPI.entries.update
-      .input({
-        id: initialData?.id || ''
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['music', 'entries']
-          })
-        },
-        onError: error => {
-          toast.error(`Failed to update music: ${error.message}`)
-        }
-      })
+  const updateMutation = useForgeMutation(
+    forgeAPI.entries.update.input({ id: initialData?.id || '' }),
+    {
+      action: 'update',
+      queryKey: forgeAPI.entries.key,
+      onSuccess: () => onClose()
+    }
   )
 
-  const { formProps, formStateStore } = defineForm<{
-    name: string
-    author: string
-  }>({
-    namespace: 'apps.music',
-    icon: 'tabler:pencil',
-    title: 'updateMusic',
-    submitButton: 'update',
-    onClose
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
+      name: initialData?.name ?? '',
+      author: initialData?.author ?? ''
+    },
+    resolver: zodResolver(schema)
   })
-    .typesMap({
-      name: 'text',
-      author: 'text'
-    })
-    .setupFields({
-      name: {
-        label: 'Music Name',
-        placeholder: "John Doe's Music",
-        icon: 'tabler:music',
-        required: true,
-        actionButtonProps: {
-          icon: 'mage:stars-c',
-          onClick: parseAi
-        }
-      },
-      author: {
-        label: 'Music Author',
-        placeholder: 'John Doe',
-        icon: 'tabler:user',
-        required: true
-      }
-    })
-    .initialData(initialData)
-    .onSubmit(async data => {
-      await mutation.mutateAsync(data)
-    })
-    .build()
 
   async function parseAi() {
     try {
-      const { name, author } = formStateStore.getState()
+      const { name, author } = form.getValues()
 
       const response = await forgeAPI.youtube.parseMusicNameAndAuthor.mutate({
         title: name || '',
@@ -87,10 +56,8 @@ function UpdateMusicModal({
         return
       }
 
-      formStateStore.setState(() => ({
-        name: response.name || '',
-        author: response.author || ''
-      }))
+      form.setValue('name', response.name || '', { shouldValidate: true })
+      form.setValue('author', response.author || '', { shouldValidate: true })
     } catch (error) {
       toast.error(
         `Failed to parse music name and author: ${error instanceof Error ? error.message : String(error)}`
@@ -98,7 +65,39 @@ function UpdateMusicModal({
     }
   }
 
-  return <FormModal {...formProps} />
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        template: 'update',
+        handler: updateMutation.mutateAsync
+      }}
+      uiConfig={{
+        icon: 'tabler:pencil',
+        namespace: 'apps.music',
+        title: 'updateMusic',
+        onClose
+      }}
+    >
+      <TextField
+        required
+        actionButtonProps={{ icon: 'mage:stars-c', onClick: parseAi }}
+        control={form.control}
+        icon="tabler:music"
+        label="Music Name"
+        name="name"
+        placeholder="John Doe's Music"
+      />
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:user"
+        label="Music Author"
+        name="author"
+        placeholder="John Doe"
+      />
+    </FormModal>
+  )
 }
 
 export default UpdateMusicModal
