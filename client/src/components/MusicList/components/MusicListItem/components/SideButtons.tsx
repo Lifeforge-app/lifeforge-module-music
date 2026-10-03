@@ -102,11 +102,7 @@ function SideButtons({ music }: { music: MusicEntry }) {
           onClick={() => {
             const a = document.createElement('a')
 
-            a.href = forgeAPI.getMedia({
-              collectionId: music.collectionId,
-              recordId: music.id,
-              fieldId: music.file
-            })
+            a.href = forgeAPI.getMedia({ key: music.file })
             a.download = music.name
             a.click()
           }}

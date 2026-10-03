@@ -1,68 +1,74 @@
+import { asc, desc, eq } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import musicSchemas from '../schema'
+import { musicEntries } from '../schema.drizzle'
+
+const entryDto = createSelectSchema(musicEntries)
 
 export const list = forge
   .query({
     description: 'Retrieve all music entries',
     output: {
-      OK: z.array(musicSchemas.entries)
+      OK: z.array(entryDto)
     }
   })
-  .callback(async ({ pb, response }) =>
-    response.ok(
-      await pb.getFullList
-        .collection('entries')
-        .sort(['-is_favourite', 'name'])
-        .execute()
-    )
-  )
+  .callback(async ({ db, response }) => {
+    const rows = await db
+      .select()
+      .from(musicEntries)
+      .orderBy(desc(musicEntries.is_favourite), asc(musicEntries.name))
+
+    return response.ok(rows)
+  })
 
 export const update = forge
   .mutation({
     description: 'Update music entry details',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), musicEntries)
       }),
       body: z.object({
         name: z.string(),
         author: z.string()
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      OK: musicSchemas.entries,
-      NOT_FOUND: true
+      OK: entryDto
     }
   })
-  .callback(async ({ pb, query: { id }, body, response }) =>
-    response.ok(
-      await pb.update.collection('entries').id(id).data(body).execute()
-    )
-  )
+  .callback(async ({ db, query: { id }, body, response }) => {
+    const [updated] = await db
+      .update(musicEntries)
+      .set({ ...body, updated: new Date() })
+      .where(eq(musicEntries.id, id))
+      .returning()
+
+    return response.ok(updated)
+  })
 
 export const remove = forge
   .mutation({
     description: 'Delete a music entry',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), musicEntries)
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    await pb.delete.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, core, response }) => {
+    const entry = await db.query.entries.findFirst({ where: { id } })
+
+    if (entry?.file) {
+      await core.storage.delete(entry.file)
+    }
+
+    await db.delete(musicEntries).where(eq(musicEntries.id, id))
 
     return response.noContent()
   })
@@ -72,25 +78,21 @@ export const toggleFavourite = forge
     description: 'Toggle favourite status of a music entry',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), musicEntries)
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      OK: musicSchemas.entries,
-      NOT_FOUND: true
+      OK: entryDto
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    const entry = await pb.getOne.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    const entry = (await db.query.entries.findFirst({ where: { id } }))!
 
-    return response.ok(
-      await pb.update
-        .collection('entries')
-        .id(id)
-        .data({ is_favourite: !entry.is_favourite })
-        .execute()
-    )
+    const [updated] = await db
+      .update(musicEntries)
+      .set({ is_favourite: !entry.is_favourite, updated: new Date() })
+      .where(eq(musicEntries.id, id))
+      .returning()
+
+    return response.ok(updated)
   })

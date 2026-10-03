@@ -3,6 +3,7 @@ import fs from 'fs'
 import z from 'zod'
 
 import forge from '../forge'
+import { musicEntries } from '../schema.drizzle'
 
 export const getVideoInfo = forge
   .query({
@@ -88,10 +89,10 @@ export const downloadVideo = forge
   })
   .callback(
     async ({
-      pb,
+      db,
       query: { id },
       body: { title, uploader, duration },
-      core: { tasks },
+      core: { tasks, storage },
       io,
       response
     }) => {
@@ -155,18 +156,20 @@ export const downloadVideo = forge
             `${process.cwd()}/medium/${mp3File}`
           )
 
-          await pb.create
-            .collection('entries')
-            .data({
-              name: title,
-              author: uploader,
-              duration,
-              file: new File(
-                [fileBuffer],
-                mp3File.split('-').slice(1).join('-')
-              )
-            })
-            .execute()
+          const ref = await storage.save({
+            file: {
+              buffer: fileBuffer,
+              originalName: mp3File.split('-').slice(1).join('-'),
+              mimeType: 'audio/mpeg'
+            }
+          })
+
+          await db.insert(musicEntries).values({
+            name: title,
+            author: uploader,
+            duration: String(duration),
+            file: ref?.key ?? ''
+          })
 
           fs.unlinkSync(`${process.cwd()}/medium/${mp3File}`)
 
@@ -209,14 +212,12 @@ export const parseMusicNameAndAuthor = forge
   .callback(
     async ({
       body: { title, uploader },
-      pb,
       core: {
         api: { fetchAI }
       },
       response
     }) => {
       const aiResponse = await fetchAI({
-        pb,
         provider: 'openai',
         model: 'gpt-4.1-mini',
         messages: [

@@ -15,6 +15,11 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
               "name": {
                 "type": "string"
               },
@@ -30,25 +35,24 @@ export const contract = {
               "is_favourite": {
                 "type": "boolean"
               },
-              "id": {
-                "type": "string"
+              "created": {
+                "type": "string",
+                "format": "date-time"
               },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
+              "updated": {
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
+              "id",
               "name",
               "duration",
               "author",
               "file",
               "is_favourite",
-              "id",
-              "collectionId",
-              "collectionName"
+              "created",
+              "updated"
             ],
             "additionalProperties": false
           }
@@ -78,8 +82,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "toggleFavourite": {
@@ -109,6 +112,11 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
@@ -124,29 +132,27 @@ export const contract = {
             "is_favourite": {
               "type": "boolean"
             },
-            "id": {
-              "type": "string"
+            "created": {
+              "type": "string",
+              "format": "date-time"
             },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "updated": {
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
+            "id",
             "name",
             "duration",
             "author",
             "file",
             "is_favourite",
-            "id",
-            "collectionId",
-            "collectionName"
+            "created",
+            "updated"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "update": {
@@ -193,6 +199,11 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
@@ -208,29 +219,27 @@ export const contract = {
             "is_favourite": {
               "type": "boolean"
             },
-            "id": {
-              "type": "string"
+            "created": {
+              "type": "string",
+              "format": "date-time"
             },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "updated": {
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
+            "id",
             "name",
             "duration",
             "author",
             "file",
             "is_favourite",
-            "id",
-            "collectionId",
-            "collectionName"
+            "created",
+            "updated"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     }
   },

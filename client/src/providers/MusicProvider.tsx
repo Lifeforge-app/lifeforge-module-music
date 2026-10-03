@@ -76,11 +76,7 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
   const playMusic = async (music: MusicEntry) => {
     setCurrentMusic(music)
 
-    audio.current.src = forgeAPI.getMedia({
-      collectionId: music.collectionId,
-      recordId: music.id,
-      fieldId: music.file
-    })
+    audio.current.src = forgeAPI.getMedia({ key: music.file })
 
     setCurrentDuration(0)
     setIsPlaying(true)
