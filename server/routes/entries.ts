@@ -46,6 +46,10 @@ export const update = forge
       .where(eq(musicEntries.id, id))
       .returning()
 
+    if (!updated) {
+      return response.notFound()
+    }
+
     return response.ok(updated)
   })
 
@@ -93,6 +97,10 @@ export const toggleFavourite = forge
       .set({ is_favourite: !entry.is_favourite, updated: new Date() })
       .where(eq(musicEntries.id, id))
       .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
 
     return response.ok(updated)
   })

@@ -55,13 +55,13 @@ export const getVideoInfo = forge
           ] = stdout.split('\n')
 
           resolve({
-            title,
-            uploadDate,
-            uploader,
-            duration,
+            title: title ?? '',
+            uploadDate: uploadDate ?? '',
+            uploader: uploader ?? '',
+            duration: duration ?? '',
             viewCount: Number(viewCount),
             likeCount: Number(likeCount),
-            thumbnail
+            thumbnail: thumbnail ?? ''
           })
         }
       )
