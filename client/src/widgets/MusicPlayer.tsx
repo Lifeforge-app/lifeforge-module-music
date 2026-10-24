@@ -36,7 +36,14 @@ export default function MusicPlayer() {
       icon="tabler:music"
       title="Music Player"
     >
-      <Flex direction="column" flex="1" minHeight="0">
+      <Flex
+        align="center"
+        direction="column"
+        flex="1"
+        height="100%"
+        justify="center"
+        minHeight="0"
+      >
         {currentMusic !== null ? (
           <>
             <Flex
