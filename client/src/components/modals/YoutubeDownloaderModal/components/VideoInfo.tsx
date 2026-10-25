@@ -8,6 +8,7 @@ import {
   Box,
   Flex,
   Icon,
+  Image,
   Text,
   colorWithOpacity,
   surface
@@ -37,10 +38,13 @@ function VideoInfo({ videoInfo }: { videoInfo: any }) {
         r="md"
         width={{ md: '16rem' }}
       >
-        <img
+        <Image
           alt=""
+          fallback="tabler:brand-youtube"
+          fit="cover"
+          height="100%"
           src={videoInfo.thumbnail}
-          style={{ height: '100%', objectFit: 'cover', width: '100%' }}
+          width="100%"
         />
         <Text
           as="p"
