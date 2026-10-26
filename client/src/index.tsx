@@ -58,6 +58,7 @@ function Music() {
         />
         <Flex
           height="100%"
+          minHeight="0"
           minWidth="0"
           mt="md"
           position="relative"
