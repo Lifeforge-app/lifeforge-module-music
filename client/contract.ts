@@ -1,415 +1,157 @@
-export const contract = {
-  "entries": {
-    "list": {
-      "method": "get",
-      "description": "Retrieve all music entries",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {},
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              "name": {
-                "type": "string"
-              },
-              "duration": {
-                "type": "string"
-              },
-              "author": {
-                "type": "string"
-              },
-              "file": {
-                "type": "string"
-              },
-              "is_favourite": {
-                "type": "boolean"
-              },
-              "created": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updated": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "id",
-              "name",
-              "duration",
-              "author",
-              "file",
-              "is_favourite",
-              "created",
-              "updated"
-            ],
-            "additionalProperties": false
-          }
-        }
-      }
-    },
-    "remove": {
-      "method": "post",
-      "description": "Delete a music entry",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "query": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "NO_CONTENT": true
-      }
-    },
-    "toggleFavourite": {
-      "method": "post",
-      "description": "Toggle favourite status of a music entry",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "query": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-            },
-            "name": {
-              "type": "string"
-            },
-            "duration": {
-              "type": "string"
-            },
-            "author": {
-              "type": "string"
-            },
-            "file": {
-              "type": "string"
-            },
-            "is_favourite": {
-              "type": "boolean"
-            },
-            "created": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updated": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          "required": [
-            "id",
-            "name",
-            "duration",
-            "author",
-            "file",
-            "is_favourite",
-            "created",
-            "updated"
-          ],
-          "additionalProperties": false
-        }
-      }
-    },
-    "update": {
-      "method": "post",
-      "description": "Update music entry details",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "query": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        },
-        "body": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "author": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "author"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-            },
-            "name": {
-              "type": "string"
-            },
-            "duration": {
-              "type": "string"
-            },
-            "author": {
-              "type": "string"
-            },
-            "file": {
-              "type": "string"
-            },
-            "is_favourite": {
-              "type": "boolean"
-            },
-            "created": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updated": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          "required": [
-            "id",
-            "name",
-            "duration",
-            "author",
-            "file",
-            "is_favourite",
-            "created",
-            "updated"
-          ],
-          "additionalProperties": false
-        }
-      }
-    }
-  },
-  "youtube": {
-    "downloadVideo": {
-      "method": "post",
-      "description": "Download YouTube video as audio asynchronously",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "query": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        },
-        "body": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "uploader": {
-              "type": "string"
-            },
-            "duration": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "title",
-            "uploader",
-            "duration"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "string"
-        }
-      }
-    },
-    "getVideoInfo": {
-      "method": "get",
-      "description": "Retrieve YouTube video metadata",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "query": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "uploadDate": {
-              "type": "string"
-            },
-            "uploader": {
-              "type": "string"
-            },
-            "duration": {
-              "type": "string"
-            },
-            "viewCount": {
-              "type": "number"
-            },
-            "likeCount": {
-              "type": "number"
-            },
-            "thumbnail": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "title",
-            "uploadDate",
-            "uploader",
-            "duration",
-            "viewCount",
-            "likeCount",
-            "thumbnail"
-          ],
-          "additionalProperties": false
-        }
-      }
-    },
-    "parseMusicNameAndAuthor": {
-      "method": "post",
-      "description": "Extract music title and author from YouTube video using AI",
-      "noAuth": false,
-      "encrypted": true,
-      "isDownloadable": false,
-      "media": null,
-      "input": {
-        "body": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "uploader": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "title",
-            "uploader"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "author": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "author"
-              ],
-              "additionalProperties": false
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      }
-    }
-  }
-} as const
+export type EndpointEntriesList_OutputOK = {
+  id: string;
+  name: string;
+  duration: string;
+  author: string;
+  file: string;
+  is_favourite: boolean;
+  created: string;
+  updated: string;
+}[];
+export type EndpointEntriesRemove_OutputNO_CONTENT = void;
+export type EndpointYoutubeDownloadVideo_OutputOK = string;
+export type EndpointYoutubeParseMusicNameAndAuthor_OutputOK = {
+  name: string;
+  author: string;
+} | null;
 
-export default contract
+export interface Contract {
+  entries: {
+    list: EndpointEntriesList;
+    remove: EndpointEntriesRemove;
+    toggleFavourite: EndpointEntriesToggleFavourite;
+    update: EndpointEntriesUpdate;
+  };
+  youtube: {
+    downloadVideo: EndpointYoutubeDownloadVideo;
+    getVideoInfo: EndpointYoutubeGetVideoInfo;
+    parseMusicNameAndAuthor: EndpointYoutubeParseMusicNameAndAuthor;
+  };
+}
+export interface EndpointEntriesList {
+  method: "get";
+  input: {};
+  output: {
+    OK: EndpointEntriesList_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointEntriesRemove {
+  method: "post";
+  input: {
+    query?: EndpointEntriesRemove_InputQuery;
+  };
+  output: {
+    NO_CONTENT: EndpointEntriesRemove_OutputNO_CONTENT;
+  };
+  media: null;
+}
+export interface EndpointEntriesRemove_InputQuery {
+  id: string;
+}
+export interface EndpointEntriesToggleFavourite {
+  method: "post";
+  input: {
+    query?: EndpointEntriesToggleFavourite_InputQuery;
+  };
+  output: {
+    OK: EndpointEntriesToggleFavourite_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointEntriesToggleFavourite_InputQuery {
+  id: string;
+}
+export interface EndpointEntriesToggleFavourite_OutputOK {
+  id: string;
+  name: string;
+  duration: string;
+  author: string;
+  file: string;
+  is_favourite: boolean;
+  created: string;
+  updated: string;
+}
+export interface EndpointEntriesUpdate {
+  method: "post";
+  input: {
+    query?: EndpointEntriesUpdate_InputQuery;
+    body?: EndpointEntriesUpdate_InputBody;
+  };
+  output: {
+    OK: EndpointEntriesUpdate_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointEntriesUpdate_InputQuery {
+  id: string;
+}
+export interface EndpointEntriesUpdate_InputBody {
+  name: string;
+  author: string;
+}
+export interface EndpointEntriesUpdate_OutputOK {
+  id: string;
+  name: string;
+  duration: string;
+  author: string;
+  file: string;
+  is_favourite: boolean;
+  created: string;
+  updated: string;
+}
+export interface EndpointYoutubeDownloadVideo {
+  method: "post";
+  input: {
+    query?: EndpointYoutubeDownloadVideo_InputQuery;
+    body?: EndpointYoutubeDownloadVideo_InputBody;
+  };
+  output: {
+    OK: EndpointYoutubeDownloadVideo_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointYoutubeDownloadVideo_InputQuery {
+  id: string;
+}
+export interface EndpointYoutubeDownloadVideo_InputBody {
+  title: string;
+  uploader: string;
+  duration: number;
+}
+export interface EndpointYoutubeGetVideoInfo {
+  method: "get";
+  input: {
+    query?: EndpointYoutubeGetVideoInfo_InputQuery;
+  };
+  output: {
+    OK: EndpointYoutubeGetVideoInfo_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointYoutubeGetVideoInfo_InputQuery {
+  id: string;
+}
+export interface EndpointYoutubeGetVideoInfo_OutputOK {
+  title: string;
+  uploadDate: string;
+  uploader: string;
+  duration: string;
+  viewCount: number;
+  likeCount: number;
+  thumbnail: string;
+}
+export interface EndpointYoutubeParseMusicNameAndAuthor {
+  method: "post";
+  input: {
+    body?: EndpointYoutubeParseMusicNameAndAuthor_InputBody;
+  };
+  output: {
+    OK: EndpointYoutubeParseMusicNameAndAuthor_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointYoutubeParseMusicNameAndAuthor_InputBody {
+  title: string;
+  uploader: string;
+}
