@@ -64,7 +64,7 @@ function YoutubeDownloaderModal({ onClose }: { onClose: () => void }) {
           duration: parseInt(videoInfoQuery.data?.duration ?? '0', 10)
         })
 
-      socket.on('taskPoolUpdate', (data: SocketEvent<undefined, string>) => {
+      socket.on('taskPoolUpdate', (data: SocketEvent<undefined>) => {
         if (!data || data.taskId !== taskId) return
 
         if (data.status === 'completed') {
